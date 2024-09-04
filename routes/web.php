@@ -6,10 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $http = Http::get("https://api.telegram.org/bot" . env('TG_API') . "/getWebhookInfo");
-    dd(json_decode($http));
+    dd(json_decode($http->body()));
     return view('welcome');
 });
 
-Route::post('/webhook', function () {
-    return response()->json(true,200);
-});
+Route::post('/webhook', [BotController::class, 'handleWebhook']);
