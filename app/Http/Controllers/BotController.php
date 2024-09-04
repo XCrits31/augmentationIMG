@@ -29,7 +29,7 @@ class BotController extends Controller
 
     protected function sendMessage($chatId, $message)
     {
-        $url = "https://api.telegram.org/bot" . env('APP_NAME') . "/sendMessage";
+        $url = "https://api.telegram.org/bot" . env('TG_API') . "/sendMessage";
         $data = [
             'chat_id' => $chatId,
             'text' => $message,
