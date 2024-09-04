@@ -11,6 +11,7 @@ class BotController extends Controller
 
     public function handleWebhook(Request $request)
     {
+        return response()->json(['status' => 'success']);
         $update = $request->all();
         $telegramId = $update['message']['from']['id'];
         $name = $update['message']['from']['first_name'];
