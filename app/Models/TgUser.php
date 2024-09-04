@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TgUser extends Model
 {
-    protected $fillable = ['telegram_id', 'name', 'username'];
     use HasFactory;
+    protected $fillable = ['telegram_id', 'name', 'username'];
+
 }
