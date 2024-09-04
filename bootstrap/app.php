@@ -14,8 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(
             except: [
                 '/webhook',
-                'https://xcrits31.su/webhook',
-                'https://xcrits31.su/',
                 ]
         );
     })
