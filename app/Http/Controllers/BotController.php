@@ -12,7 +12,7 @@ class BotController extends Controller
     public function handleWebhook(Request $request)
     {
         $update = $request->all();
-
+        dd($update);
         $telegramId = $update['message']['from']['id'];
         $name = $update['message']['from']['first_name'];
         $username = $update['message']['from']['username'] ?? null;
