@@ -9,5 +9,3 @@ Route::get('/', function () {
     dd(json_decode($http));
     //return view('welcome');
 });
-
-Route::post('/webhook', [BotController::class, 'handleWebhook']);
