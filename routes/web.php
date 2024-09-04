@@ -10,4 +10,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/webhook', [BotController::class, 'handleWebhook']);
+Route::post('/webhook', function () {
+    return response()->json(true,200);
+});
