@@ -11,6 +11,6 @@ Route::get('/', function () {
 
 Route::post('/webhook', [BotController::class, 'handleWebhook']);
 
-Route::match(['get', 'post', 'put'], '/webhook/trello', [TrelloWebhookController::class, 'handle']);
+Route::match(['get', 'post', 'put'], '/webhook-trello', [TrelloWebhookController::class, 'handle']);
 
 
