@@ -13,6 +13,11 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'trello' => [
+        'key' => env('TRELLO_API_KEY'),
+        'token' => env('TRELLO_API_TOKEN'),
+        'oauth_secret' => env('TRELLO_OAUTH_SECRET'),
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),

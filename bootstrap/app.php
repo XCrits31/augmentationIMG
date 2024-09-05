@@ -15,8 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
             except: [
                 'webhook',
                 '/webhook',
-                '/webhook/trello',
-                '/webhook/trello/',
+                '/webhook-trello',
+                'webhook-trello',
                 ]
         );
     })
