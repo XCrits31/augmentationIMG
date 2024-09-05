@@ -34,12 +34,6 @@ class BotController extends Controller
             'chat_id' => $chatId,
             'text' => $message,
         ];
-        $responce = Http::post("https://api.trello.com/1/webhooks/?key=ddedd3e7a8eee4e2ef154e9a5933798d&token=ATTAf9a068bc0402f498b8f75461090a484ea1e01e602e57ad32a88994de78822deeE8A16C1C", [
-            'callbackURL' => 'https://xcrits31.su/webhook-trello',
-            'idModel' => '66d986833ad2d7b6caab0a61',
-            'description' => 'Webhook for card move',
-        ]);
-        Log::info($responce);
         Http::post($url, $data);
     }
 }
