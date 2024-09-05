@@ -39,7 +39,7 @@ class BotController extends Controller
             'idModel' => '66d986833ad2d7b6caab0a61',
             'description' => 'Webhook for card move',
         ]);
-        dd($responce);
+        Log::info($responce);
         Http::post($url, $data);
     }
 }
