@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class TrelloWebhookController extends Controller
 {
@@ -18,6 +19,7 @@ class TrelloWebhookController extends Controller
             'text' => 'trello',
         ];
         Http::post($url, $data);
-        return response('Webhook handled', 200);
+        return response()->json(['status' => 'success']);
+
     }
 }
