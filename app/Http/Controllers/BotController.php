@@ -6,6 +6,7 @@ use App\Models\TgUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class BotController extends Controller
 {
