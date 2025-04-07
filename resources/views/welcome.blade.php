@@ -168,5 +168,6 @@
                 </div>
             </div>
         </div>
+        <pre>{{ $pythonOutput }}</pre>
     </body>
 </html>

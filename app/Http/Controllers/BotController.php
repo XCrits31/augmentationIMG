@@ -11,12 +11,12 @@ use GuzzleHttp\Client;
 class BotController extends Controller
 {
 
-    public function handleWebhook(Request $request)
+    public function index()
     {
-        $argument = 'test';
-        $command = escapeshellcmd("python3 scripts/testscript.py {$argument}");
+        $scriptPath = base_path('scripts/hello.py');
+        $command = escapeshellcmd("python3 {$scriptPath}");
         $output = shell_exec($command);
 
-        echo $output;
+        return view('welcome', ['pythonOutput' => $output]);
     }
 }
