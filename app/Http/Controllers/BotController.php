@@ -13,7 +13,7 @@ class BotController extends Controller
 
     public function index()
     {
-        $scriptPath = base_path('scripts/hello.py');
+        $scriptPath = base_path('scripts/testscript.py');
         $command = escapeshellcmd("python3 {$scriptPath}");
         $output = shell_exec($command);
 
