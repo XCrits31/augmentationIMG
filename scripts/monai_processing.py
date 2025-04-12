@@ -2,7 +2,7 @@
 import sys
 import json
 import os
-
+import numpy as np
 from monai.transforms import (
     Compose,
     LoadImage,
@@ -39,18 +39,30 @@ def main():
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
 
-    # Создаём объект сохранения с указанием выхода: здесь output_postfix добавит суффикс к имени файла
-    saver = SaveImage(output_dir=output_dir, output_postfix="_processed", output_ext=".png", writer="PILWriter", separate_folder=False)
+    # Если изображение имеет форму (1, H, W) и H или W равны 1, можно попробовать удалить первую размерность, оставив двумерный массив.
+    if image.ndim == 3 and image.shape[0] == 1:
+        image = image[0]  # Теперь форма должна быть (H, W)
+
+    # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
+    saver = SaveImage(
+        output_dir=output_dir,
+        output_postfix="_processed",
+        output_ext=".png",        # Желательный формат PNG
+        writer="PILWriter",       # Используем PILWriter для сохранения в PNG
+        separate_folder=False,    # Сохраняем файл непосредственно в output_dir
+        print_log=True
+    )
+
     try:
-        saver(image)  # Вызываем без передачи img_name
+        saver(image)  # Вызываем сохранение без дополнительных аргументов
     except Exception as e:
         print(json.dumps({"error": f"Ошибка при сохранении: {str(e)}"}))
         return
 
-    # Формируем путь к обработанному файлу
+    # Формируем путь к обработанному файлу: обратите внимание, что в случае PILWriter формат может быть определен автоматически
     base_name = os.path.basename(input_path)
     name, ext = os.path.splitext(base_name)
-    output_path = os.path.join(output_dir, f"{name}_processed{ext}")
+    output_path = os.path.join(output_dir, f"{name}_processed.png")
 
     result = {"message": "Изображение обработано", "processed": output_path}
     print(json.dumps(result))
