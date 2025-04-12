@@ -1,0 +1,6 @@
+monai[all]
+torch
+torchvision
+matplotlib
+pillow
+numpy
