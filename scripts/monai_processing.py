@@ -37,7 +37,6 @@ def main():
     # Составляем пайплайн MONAI:
     transforms = Compose([
         LoadImage(image_only=True),   # Загружаем изображение (в формате numpy array)
-        AddChannel(),                 # Добавляем канал, если требуется
         ScaleIntensity(),             # Масштабируем интенсивность пикселей
         Resize((256, 256))            # Изменяем размер изображения на 256x256 (можно адаптировать)
     ])
