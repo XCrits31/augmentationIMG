@@ -40,7 +40,7 @@ def main():
         return
 
     # Создаём объект сохранения с указанием выхода: здесь output_postfix добавит суффикс к имени файла
-    saver = SaveImage(output_dir=output_dir, output_postfix="_processed", output_ext=".png", separate_folder=False)
+    saver = SaveImage(output_dir=output_dir, output_postfix="_processed", output_ext=".png", writer="PILWriter", separate_folder=False)
     try:
         saver(image)  # Вызываем без передачи img_name
     except Exception as e:
