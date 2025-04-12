@@ -6,7 +6,6 @@ import os
 from monai.transforms import (
     Compose,
     LoadImage,
-    AddChannel,
     ScaleIntensity,
     Resize,
     SaveImage
