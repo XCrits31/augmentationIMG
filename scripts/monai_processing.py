@@ -8,7 +8,8 @@ from monai.transforms import (
     LoadImage,
     ScaleIntensity,
     Resize,
-    SaveImage
+    SaveImage,
+    ToTensor()
 )
 
 def main():
@@ -29,7 +30,8 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        Resize((256, 256))
+        Resize((256, 256)),
+        ToTensor()
     ])
 
     try:
