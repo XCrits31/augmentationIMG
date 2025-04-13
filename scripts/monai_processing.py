@@ -47,12 +47,25 @@ def main():
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
         image = image.numpy()
 
-    # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
     try:
-        pil_image = Image.fromarray(image)
-        pil_image.save("out/test_image.png")
+        # Ensure the NumPy array has a valid shape for a PNG image
+        if image.ndim == 2:  # Grayscale
+            mode = "L"
+        elif image.ndim == 3 and image.shape[-1] == 3:  # RGB
+            mode = "RGB"
+        elif image.ndim == 3 and image.shape[-1] == 4:  # RGBA
+            mode = "RGBA"
+        else:
+            raise ValueError(f"Unsupported image shape: {image.shape}")
+
+        # Create a PIL Image with the correct mode
+        pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
+
+        # Save the image to the output path
+        pil_image.save("out/saved_image.png")
     except Exception as e:
-        print(f"Direct save error: {e}")
+        print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
+        return
 
 
 
