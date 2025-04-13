@@ -64,7 +64,7 @@ def main():
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
 
         # Save the image to the output path
-        pil_image.save("out/saved_image.png")
+        pil_image.save(output_dir)
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
         return
