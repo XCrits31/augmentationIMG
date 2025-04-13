@@ -48,6 +48,16 @@ def main():
         image = image.numpy()
 
     try:
+            # Ensure the image is in NumPy format
+        if isinstance(image, torch.Tensor):
+            image = image.numpy()  # Convert tensor to NumPy array
+        
+            # Automatically detect and adjust axis order
+            # Check if the image has 3 dimensions (e.g., RGB or grayscale)
+        if image.ndim == 3:
+            if image.shape[0] in (1, 3, 4):  # PyTorch format (Channels, Height, Width
+                image = np.transpose(image, (1, 2, 0))  # Convert to (Height, Width, Channels)
+
         # Ensure the NumPy array has a valid shape for a PNG image
         if image.ndim == 2:  # Grayscale
             mode = "L"
