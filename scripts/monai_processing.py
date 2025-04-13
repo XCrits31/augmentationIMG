@@ -11,7 +11,7 @@ from monai.transforms import (
     LoadImage,
     ScaleIntensity,
     Resize,
-    Rotate,
+    Rotated,
     SaveImage,
     ToTensor
 )
