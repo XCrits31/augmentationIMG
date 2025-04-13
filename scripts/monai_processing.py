@@ -4,6 +4,7 @@ import json
 import os
 import numpy as np
 import torch
+from monai.data import MetaTensor
 from PIL import Image
 from monai.transforms import (
     Compose,
@@ -40,6 +41,10 @@ def main():
     except Exception as e:
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
+
+    if isinstance(image, MetaTensor):
+        image = torch.as_tensor(image)  # Convert to PyTorch Tensor
+        image = image.numpy()
 
     # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
     try:
