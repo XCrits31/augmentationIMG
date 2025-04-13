@@ -37,7 +37,9 @@ def main():
         Rotate(angle=90),
         ToTensor(),
     ])
-
+    base_name = os.path.basename(input_path)
+    name, ext = os.path.splitext(base_name)
+    output_path = os.path.join(output_dir, f"{name}_processed.png")
     try:
         image = transforms(input_path)
     except Exception as e:
@@ -72,9 +74,7 @@ def main():
 
 
     # Формируем путь к обработанному файлу: обратите внимание, что в случае PILWriter формат может быть определен автоматически
-    base_name = os.path.basename(input_path)
-    name, ext = os.path.splitext(base_name)
-    output_path = os.path.join(output_dir, f"{name}_processed.png")
+
 
     result = {"message": "Изображение обработано", "processed": output_path}
     print(json.dumps(result))
