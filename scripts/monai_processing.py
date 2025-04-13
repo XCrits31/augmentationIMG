@@ -49,7 +49,6 @@ def main():
 
     if isinstance(image, MetaTensor):
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
-        image = image.numpy()
 
     try:
         # Ensure the NumPy array has a valid shape for a PNG image
@@ -63,7 +62,7 @@ def main():
             raise ValueError(f"Unsupported image shape: {image.shape}")
 
         # Create a PIL Image with the correct mode
-        pil_image = Image.fromarray(image.astype(np.uint8), mode="RGBA")
+        pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
 
         # Save the image to the output path
         pil_image.save(output_path)
