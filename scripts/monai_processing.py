@@ -11,7 +11,7 @@ from monai.transforms import (
     LoadImage,
     ScaleIntensity,
     Resize,
-    Rotated,
+    Rotate,
     SaveImage,
     ToTensor
 )
@@ -34,7 +34,7 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        Rotated(k=1, mode='nearest'),
+        Rotate(angle=90, mode='nearest', keep_size=True),
         ToTensor(),
     ])
 
