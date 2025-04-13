@@ -34,7 +34,7 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-
+        Rotate(angle=90),
         ToTensor(),
     ])
     base_name = os.path.basename(input_path)
