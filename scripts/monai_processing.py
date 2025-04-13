@@ -4,7 +4,7 @@ import json
 import os
 import numpy as np
 import torch
-from PIL import Imag
+from PIL import Image
 from monai.transforms import (
     Compose,
     LoadImage,
