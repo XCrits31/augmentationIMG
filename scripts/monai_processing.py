@@ -65,7 +65,8 @@ def main():
         output_dir=output_dir,
         output_postfix="_processed",
         output_ext=".png",        # Желательный формат PNG
-        writer="PILWriter",       # Используем PILWriter для сохранения в PNG
+        writer="PILWriter",
+        image_mode="RGBA",
         separate_folder=False,    # Сохраняем файл непосредственно в output_dir
         print_log=True
     )
