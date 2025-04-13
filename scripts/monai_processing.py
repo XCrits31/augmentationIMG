@@ -30,7 +30,6 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        Resize((256, 256)),
         ToTensor()
     ])
 
@@ -39,6 +38,8 @@ def main():
     except Exception as e:
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
+
+    print(f"Image shape: {image.shape}, dtype: {image.dtype}")
 
     # Если изображение имеет форму (1, H, W) и H или W равны 1, можно попробовать удалить первую размерность, оставив двумерный массив.
     if image.ndim == 3 and image.shape[0] == 1:
