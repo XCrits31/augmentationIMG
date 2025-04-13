@@ -30,7 +30,6 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        ToTensor()
     ])
 
     try:
