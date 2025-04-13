@@ -42,6 +42,13 @@ def main():
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
 
+    if image.dtype in [np.float32, np.float64]:
+        image = (image - image.min()) / (image.max() - image.min())  # Normalize to [0, 1]
+        image = (image * 255).astype(np.uint8)  # Convert to uint8 and scale to [0, 255]
+
+    # Clip to ensure pixel values are valid
+    image = np.clip(image, 0, 255)
+
     if isinstance(image, MetaTensor):
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
         image = image.numpy()
