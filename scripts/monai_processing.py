@@ -30,6 +30,7 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
+        ToTensor()
     ])
 
     try:
@@ -40,9 +41,23 @@ def main():
 
     print(f"Image shape: {image.shape}, dtype: {image.dtype}")
 
-    # Если изображение имеет форму (1, H, W) и H или W равны 1, можно попробовать удалить первую размерность, оставив двумерный массив.
-    if image.ndim == 3 and image.shape[0] == 1:
-        image = image[0]  # Теперь форма должна быть (H, W)
+# Convert to numpy array if it's still a PyTorch tensor
+    if isinstance(image, torch.Tensor):
+        image = image.numpy()  # Convert torch tensor to numpy array
+
+# Scale the data to 0–255 if needed
+    if image.dtype == np.float32 or image.dtype == np.float64:
+        image = (image - image.min()) / (image.max() - image.min())  # Normalize to [0, 1]
+        image = (image * 255).astype(np.uint8)  # Scale to [0, 255] and convert to uint8
+
+# Debugging print
+    print(f"Processed image shape: {image.shape}, dtype: {image.dtype}")
+
+# Ensure shape is compatible (optional, as MONAI supports this shape)
+    if image.ndim == 3 and image.shape[2] == 4:  # RGBA image
+        pass  # Shape is fine for RGBA
+    else:
+        raise ValueError(f"Unexpected shape for RGBA image: {image.shape}")
 
     # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
     saver = SaveImage(
