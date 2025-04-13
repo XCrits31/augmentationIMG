@@ -9,7 +9,7 @@ from monai.transforms import (
     ScaleIntensity,
     Resize,
     SaveImage,
-    ToTensor()
+    ToTensor
 )
 
 def main():
