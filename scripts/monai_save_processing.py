@@ -31,7 +31,7 @@ def main():
 
     # Define the transformation pipeline
     transforms = Compose([
-        LoadImage(image_only=False),                # Load image along with metadata
+        LoadImage(image_only=True),                # Load image along with metadata
         Rotate(angle=90, align_corners=True),       # Rotate 90 degrees
         ScaleIntensity(),                           # Optional normalization to [0, 1]
         ToTensor(),                                 # Convert to PyTorch Tensor
