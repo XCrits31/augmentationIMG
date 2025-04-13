@@ -50,9 +50,9 @@ def main():
         return
 
 
-    #if isinstance(image, MetaTensor):
-        #image = torch.as_tensor(image)  # Convert to PyTorch Tensor
-        #image = image.numpy()
+    if isinstance(image, MetaTensor):
+        image = torch.as_tensor(image)  # Convert to PyTorch Tensor
+        image = image.numpy()
 
     try:
         # Ensure the NumPy array has a valid shape for a PNG image
