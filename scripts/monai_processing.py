@@ -69,11 +69,6 @@ def main():
         print(f"Direct save error: {e}")
 
 
-    try:
-        saver(image)  # Вызываем сохранение без дополнительных аргументов
-    except Exception as e:
-        print(json.dumps({"error": f"Ошибка при сохранении: {str(e)}"}))
-        return
 
     # Формируем путь к обработанному файлу: обратите внимание, что в случае PILWriter формат может быть определен автоматически
     base_name = os.path.basename(input_path)
