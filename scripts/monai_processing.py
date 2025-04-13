@@ -42,12 +42,6 @@ def main():
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
 
-    if image.dtype in [np.float32, np.float64]:
-        image = (image - image.min()) / (image.max() - image.min())  # Normalize to [0, 1]
-        image = (image * 255).astype(np.uint8)  # Convert to uint8 and scale to [0, 255]
-
-    # Clip to ensure pixel values are valid
-    image = np.clip(image, 0, 255)
 
     if isinstance(image, MetaTensor):
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
@@ -55,7 +49,7 @@ def main():
 
     # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
     try:
-        pil_image = Image.fromarray(image, mode="RGBA")
+        pil_image = Image.fromarray(image)
         pil_image.save("out/test_image.png")
     except Exception as e:
         print(f"Direct save error: {e}")
