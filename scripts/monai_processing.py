@@ -63,7 +63,7 @@ def main():
             raise ValueError(f"Unsupported image shape: {image.shape}")
 
         # Create a PIL Image with the correct mode
-        pil_image = Image.fromarray(image)
+        pil_image = Image.fromarray(image, mode = mode)
 
         # Save the image to the output path
         pil_image.save(output_path)
