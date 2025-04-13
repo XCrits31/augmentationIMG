@@ -77,7 +77,7 @@ def main():
         mode = "RGBA"
     else:
         raise ValueError(f"Unsupported image shape: {image.shape}")
-        
+
     try:
 
     # Save the image as PNG
