@@ -65,6 +65,8 @@ def main():
         else:
             raise ValueError(f"Unsupported image shape: {image.shape}")
 
+        image = np.moveaxis(image.numpy(), 0, -1) if image.ndim == 3 else image.numpy()
+
         # Create a PIL Image with the correct mode
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
 
