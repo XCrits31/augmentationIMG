@@ -21,6 +21,10 @@ def main():
     input_path = sys.argv[1]
     output_dir = sys.argv[2]
 
+    # Before the `Rotate` transform
+    image, meta_data = LoadImage(image_only=False)(input_path)
+    print(f"Image shape: {image.shape}, Image dtype: {image.dtype}")
+    
     # Check if the input file exists
     if not os.path.exists(input_path):
         print(json.dumps({"error": f"Input file not found: {input_path}"}))
@@ -31,7 +35,7 @@ def main():
 
     # Define the transformation pipeline
     transforms = Compose([
-        LoadImage(image_only=True),                # Load image along with metadata
+        LoadImage(image_only=False),                # Load image along with metadata
         Rotate(angle=90, align_corners=True),       # Rotate 90 degrees
         ScaleIntensity(),                           # Optional normalization to [0, 1]
         ToTensor(),                                 # Convert to PyTorch Tensor
