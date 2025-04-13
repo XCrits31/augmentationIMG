@@ -77,10 +77,12 @@ def main():
         mode = "RGBA"
     else:
         raise ValueError(f"Unsupported image shape: {image.shape}")
+        
+    try:
 
     # Save the image as PNG
-    pil_image = Image.fromarray(image, mode=mode)
-    pil_image.save(output_path)
+        pil_image = Image.fromarray(image, mode=mode)
+        pil_image.save(output_path)
 
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
