@@ -4,6 +4,7 @@ import json
 import os
 import numpy as np
 import torch
+from PIL import Imag
 from monai.transforms import (
     Compose,
     LoadImage,
@@ -61,15 +62,12 @@ def main():
         raise ValueError(f"Unexpected shape for RGBA image: {image.shape}")
 
     # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
-    saver = SaveImage(
-        output_dir=output_dir,
-        output_postfix="_processed",
-        output_ext=".png",        # Желательный формат PNG
-        writer="PILWriter",
-        image_mode="RGBA",
-        separate_folder=False,    # Сохраняем файл непосредственно в output_dir
-        print_log=True
-    )
+    try:
+        pil_image = Image.fromarray(image, mode="RGBA")
+        pil_image.save("out/test_image.png")
+    except Exception as e:
+        print(f"Direct save error: {e}")
+
 
     try:
         saver(image)  # Вызываем сохранение без дополнительных аргументов
