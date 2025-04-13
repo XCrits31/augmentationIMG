@@ -29,7 +29,6 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        ScaleIntensity(),
         Resize((256, 256))
     ])
 
