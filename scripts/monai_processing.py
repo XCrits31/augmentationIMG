@@ -34,7 +34,7 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        Rotate(angle=90),
+        #Rotate(angle=90),
         ToTensor(),
     ])
     base_name = os.path.basename(input_path)
@@ -49,6 +49,7 @@ def main():
 
     if isinstance(image, MetaTensor):
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
+        image = image.numpy()
 
     try:
         # Ensure the NumPy array has a valid shape for a PNG image
