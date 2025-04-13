@@ -9,7 +9,6 @@ from monai.transforms import (
     Rotate,
     ScaleIntensity,
     SaveImage,
-    EnsureChannelFirst,
     ToTensor,
 )
 
@@ -33,7 +32,6 @@ def main():
     # Define the transformation pipeline
     transforms = Compose([
         LoadImage(image_only=False),                # Load image along with metadata
-        EnsureChannelFirst(),                       # Ensure channel-first format (C x H x W)
         Rotate(angle=90, align_corners=True),       # Rotate 90 degrees
         ScaleIntensity(),                           # Optional normalization to [0, 1]
         ToTensor(),                                 # Convert to PyTorch Tensor
