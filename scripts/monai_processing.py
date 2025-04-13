@@ -11,6 +11,7 @@ from monai.transforms import (
     LoadImage,
     ScaleIntensity,
     Resize,
+    Rotate,
     SaveImage,
     ToTensor
 )
@@ -33,7 +34,8 @@ def main():
     # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
-        ToTensor()
+        Rotated(k=1, mode='nearest'),
+        ToTensor(),
     ])
 
     try:
@@ -51,7 +53,7 @@ def main():
             # Ensure the image is in NumPy format
         if isinstance(image, torch.Tensor):
             image = image.numpy()  # Convert tensor to NumPy array
-        
+
             # Automatically detect and adjust axis order
             # Check if the image has 3 dimensions (e.g., RGB or grayscale)
         if image.ndim == 3:
