@@ -41,26 +41,6 @@ def main():
         print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
         return
 
-    print(f"Image shape: {image.shape}, dtype: {image.dtype}")
-
-# Convert to numpy array if it's still a PyTorch tensor
-    if isinstance(image, torch.Tensor):
-        image = image.numpy()  # Convert torch tensor to numpy array
-
-# Scale the data to 0–255 if needed
-    if image.dtype == np.float32 or image.dtype == np.float64:
-        image = (image - image.min()) / (image.max() - image.min())  # Normalize to [0, 1]
-        image = (image * 255).astype(np.uint8)  # Scale to [0, 255] and convert to uint8
-
-# Debugging print
-    print(f"Processed image shape: {image.shape}, dtype: {image.dtype}")
-
-# Ensure shape is compatible (optional, as MONAI supports this shape)
-    if image.ndim == 3 and image.shape[2] == 4:  # RGBA image
-        pass  # Shape is fine for RGBA
-    else:
-        raise ValueError(f"Unexpected shape for RGBA image: {image.shape}")
-
     # Создаем объект SaveImage с указанием, что сохраняем в PNG через PILWriter
     try:
         pil_image = Image.fromarray(image, mode="RGBA")
