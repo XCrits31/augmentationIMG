@@ -54,24 +54,34 @@ def main():
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
         image = image.numpy()
 
-    try:
-        # Ensure the NumPy array has a valid shape for a PNG image
-        if image.ndim == 2:  # Grayscale
-            mode = "L"
-        elif image.ndim == 3 and image.shape[-1] == 3:  # RGB
-            mode = "RGB"
-        elif image.ndim == 3 and image.shape[-1] == 4:  # RGBA
-            mode = "RGBA"
-        else:
-            raise ValueError(f"Unsupported image shape: {image.shape}")
+    if torch.is_tensor(image):  # Convert PyTorch to NumPy if necessary
+        image = image.numpy()
 
-        image = np.moveaxis(image.numpy(), 0, -1) if image.ndim == 3 else image.numpy()
+    # Fix image dimensions: C x H x W -> H x W x C
+    if len(image.shape) == 3:
+        if image.shape[0] == 1:  # Single-channel grayscale image
+            image = image[0]  # Remove channel dimension
+        elif image.shape[0] in [3, 4]:  # Channel-first RGB or RGBA
+            image = np.moveaxis(image, 0, -1)  # Rearrange to channel-last
 
-        # Create a PIL Image with the correct mode
-        pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
+    # Normalize to uint8
+    if image.dtype != np.uint8:
+        image = (np.clip(image, 0, 1) * 255).astype(np.uint8)
 
-        # Save the image to the output path
-        pil_image.save(output_path)
+    # Check mode for PIL
+    if image.ndim == 2:  # Grayscale
+        mode = "L"
+    elif image.ndim == 3 and image.shape[-1] == 3:  # RGB
+        mode = "RGB"
+    elif image.ndim == 3 and image.shape[-1] == 4:  # RGBA
+        mode = "RGBA"
+    else:
+        raise ValueError(f"Unsupported image shape: {image.shape}")
+
+    # Save the image as PNG
+    pil_image = Image.fromarray(image, mode=mode)
+    pil_image.save(output_path)
+
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
         return
