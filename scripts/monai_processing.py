@@ -54,9 +54,11 @@ def main():
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
         image = image.numpy()
 
+    print(f"Первый пиксель: {image[0, 0]}, Средний пиксель: {image[960, 960]}, Последний пиксель: {image[-1, -1]}")
+
     if torch.is_tensor(image):  # Convert PyTorch to NumPy if necessary
         image = image.numpy()
-    
+
 
     # Fix image dimensions: C x H x W -> H x W x C
     if len(image.shape) == 3:
