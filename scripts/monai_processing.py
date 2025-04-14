@@ -80,13 +80,12 @@ def main():
         raise ValueError(f"Unsupported image shape: {image.shape}")
 
     try:
-  print(f"-Final image shape: {image.shape}, Data type: {image.dtype}
-")
+        print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
 
     # Save the image as PNG
         pil_image = Image.fromarray(image, mode=mode)
         pil_image.save(output_path)
-  print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
+        print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
 
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
