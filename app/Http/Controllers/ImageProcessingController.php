@@ -77,7 +77,7 @@ class ImageProcessingController extends Controller
 
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
         $outputPath = base_path("scripts/out/{$baseName}_processed.png");
-        
+
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'processedUrl', 'transformation'));
     }
