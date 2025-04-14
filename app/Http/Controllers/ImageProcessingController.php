@@ -74,9 +74,10 @@ class ImageProcessingController extends Controller
         // Здесь предполагается, что Python-скрипт сохраняет файл под именем <original>_processed.png
         $processedFilename = pathinfo($originalName, PATHINFO_FILENAME) . '_processed.png';
         $processedUrl = asset('scripts/out/' . $processedFilename);
+        $basePath = 'storage/processed/';
 
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
-        $outputPath = storage_path("storage/processed/{$processedFilename}");
+        $outputPath = asset($basePath, $processedFilename);
 
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'outputPath', 'transformation'));
