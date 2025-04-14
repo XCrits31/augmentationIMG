@@ -61,11 +61,11 @@ def main():
         image = image.numpy()
 
 
-    #if len(image.shape) == 3:
-        #if image.shape[0] == 1:
-            #image = image[0]
-        #elif image.shape[0] in [3, 4]:
-            #image = np.moveaxis(image, 0, -1)
+    if len(image.shape) == 3:
+        if image.shape[0] == 1:
+            image = image[0]
+        elif image.shape[0] in [3, 4]:
+            image = np.moveaxis(image, 0, -1)
 
 
     # Normalize to uint8
@@ -86,6 +86,7 @@ def main():
 
 
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
+        pil_image = pil_image.transpose(Image.ROTATE_270)
         pil_image.save(output_path)
         print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
 
