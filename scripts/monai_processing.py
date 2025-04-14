@@ -20,9 +20,8 @@ from monai.transforms import (
 )
 
 def main():
-    # Проверка аргументов: требуется 2 аргумента - input_path и output_dir
     if len(sys.argv) < 3:
-        print(json.dumps({"error": "Недостаточно аргументов. Требуется input_path и output_dir"}))
+        print(json.dumps({"error": "need more argv"}))
         return
 
     input_path = sys.argv[1]
@@ -34,7 +33,6 @@ def main():
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # Пайплайн преобразования: загрузка, добавление канала, масштабирование интенсивности, изменение размера
     transforms = Compose([
         LoadImage(image_only=True),
         EnsureChannelFirst(),
@@ -42,9 +40,11 @@ def main():
         Zoom(zoom=(1.5, 1.5)),
         ToTensor(),
     ])
+
     base_name = os.path.basename(input_path)
     name, ext = os.path.splitext(base_name)
     output_path = os.path.join(output_dir, f"{name}_processed.png")
+
     try:
         image = transforms(input_path)
     except Exception as e:
@@ -53,32 +53,30 @@ def main():
 
 
     if isinstance(image, MetaTensor):
-        image = torch.as_tensor(image)  # Convert to PyTorch Tensor
+        image = torch.as_tensor(image)
         image = image.numpy()
 
 
-    if torch.is_tensor(image):  # Convert PyTorch to NumPy if necessary
+    if torch.is_tensor(image):
         image = image.numpy()
 
 
-    # Fix image dimensions: C x H x W -> H x W x C
     if len(image.shape) == 3:
-        if image.shape[0] == 1:  # Single-channel grayscale image
-            image = image[0]  # Remove channel dimension
-        elif image.shape[0] in [3, 4]:  # Channel-first RGB or RGBA
-            image = np.moveaxis(image, 0, -1)  # Rearrange to channel-last
+        if image.shape[0] == 1:
+            image = image[0]
+        elif image.shape[0] in [3, 4]:
+            image = np.moveaxis(image, 0, -1)
 
 
     # Normalize to uint8
     #if image.dtype != np.uint8:
         #image = (np.clip(image, 0, 1) * 255).astype(np.uint8)
 
-    # Check mode for PIL
-    if image.ndim == 2:  # Grayscale
+    if image.ndim == 2:
         mode = "L"
-    elif image.ndim == 3 and image.shape[-1] == 3:  # RGB
+    elif image.ndim == 3 and image.shape[-1] == 3:
         mode = "RGB"
-    elif image.ndim == 3 and image.shape[-1] == 4:  # RGBA
+    elif image.ndim == 3 and image.shape[-1] == 4:
         mode = "RGBA"
     else:
         raise ValueError(f"Unsupported image shape: {image.shape}")
@@ -87,7 +85,6 @@ def main():
         print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
 
 
-    # Save the image as PNG
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
         pil_image.save(output_path)
         print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
@@ -95,10 +92,6 @@ def main():
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
         return
-
-
-
-    # Формируем путь к обработанному файлу: обратите внимание, что в случае PILWriter формат может быть определен автоматически
 
 
     result = {"message": "Изображение обработано", "processed": output_path}
