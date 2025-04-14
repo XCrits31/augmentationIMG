@@ -37,7 +37,7 @@ def main():
         LoadImage(image_only=True),
         EnsureChannelFirst(),
         #Rotate(angle=180),
-        Zoom(zoom=(1.5, 1.5)),
+        #Zoom(zoom=(1.5, 1.5)),
         ToTensor(),
     ])
 
@@ -82,13 +82,9 @@ def main():
         raise ValueError(f"Unsupported image shape: {image.shape}")
 
     try:
-        print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
-
-
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
         pil_image = pil_image.transpose(Image.ROTATE_270)
         pil_image.save(output_path)
-        print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
 
     except Exception as e:
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
