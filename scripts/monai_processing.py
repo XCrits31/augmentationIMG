@@ -61,11 +61,11 @@ def main():
         image = image.numpy()
 
 
-    if len(image.shape) == 3:
-        if image.shape[0] == 1:
-            image = image[0]
-        elif image.shape[0] in [3, 4]:
-            image = np.moveaxis(image, 0, -1)
+    #if len(image.shape) == 3:
+        #if image.shape[0] == 1:
+            #image = image[0]
+        #elif image.shape[0] in [3, 4]:
+            #image = np.moveaxis(image, 0, -1)
 
 
     # Normalize to uint8
