@@ -34,7 +34,7 @@ class ImageProcessingController extends Controller
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
-
+        $basePath = 'storage/app/public/processed/';
         // Получаем выбранный тип трансформации (например: resize, grayscale, flip, default)
         $transformation = $request->input('transformation', 'default');
 
@@ -69,13 +69,15 @@ class ImageProcessingController extends Controller
             return back()->with('error', $output['error']);
         }
 
+
         // Формируем URL для исходного и обработанного изображений
         $originalUrl = asset('storage/' . $storagePath);
         // Здесь предполагается, что Python-скрипт сохраняет файл под именем <original>_processed.png
         $processedFilename = pathinfo($originalName, PATHINFO_FILENAME) . '_processed.png';
 
         $storagePath = $uploadedFile->storeAs('processed', $processedFilename, 'public');
-        $processedUrl = asset($storagePath . $processedFilename);
+        $processedUrl = asset($basePath . $processedFilename);
+
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'processedUrl', 'transformation'));
