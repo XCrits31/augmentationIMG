@@ -56,7 +56,7 @@ def main():
 
     if torch.is_tensor(image):  # Convert PyTorch to NumPy if necessary
         image = image.numpy()
-     print(f"Минимум: {image.min()}, Максимум: {image.max()}")
+    
 
     # Fix image dimensions: C x H x W -> H x W x C
     if len(image.shape) == 3:
