@@ -84,7 +84,7 @@ def main():
     try:
         print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
 
-    image = image[..., ::-1]
+        image = image[..., ::-1]
 
     # Save the image as PNG
         pil_image = Image.fromarray(image, mode=mode)
