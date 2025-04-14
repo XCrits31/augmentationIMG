@@ -38,7 +38,7 @@ def main():
         EnsureChannelFirst(),
         #Rotate(angle=180),
         #Zoom(zoom=(1.5, 1.5)),
-        ToTensor(),
+        #ToTensor(),
     ])
 
     base_name = os.path.basename(input_path)
@@ -61,11 +61,11 @@ def main():
         image = image.numpy()
 
 
-    if len(image.shape) == 3:
-        if image.shape[0] == 1:
-            image = image[0]
-        elif image.shape[0] in [3, 4]:
-            image = np.moveaxis(image, 0, -1)
+    #if len(image.shape) == 3:
+        #if image.shape[0] == 1:
+            #image = image[0]
+        #elif image.shape[0] in [3, 4]:
+            #image = np.moveaxis(image, 0, -1)
 
 
     # Normalize to uint8
@@ -83,7 +83,7 @@ def main():
 
     try:
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
-        pil_image = pil_image.transpose(Image.ROTATE_270)
+        #pil_image = pil_image.transpose(Image.ROTATE_270)
         pil_image.save(output_path)
 
     except Exception as e:
