@@ -67,7 +67,7 @@ def main():
             image = image[0]
         elif image.shape[0] in [3, 4]:
             image = np.moveaxis(image, 0, -1)
-            image = np.flip(image, axis=2)
+            #image = np.flip(image, axis=2)
     print(f"Shape before moveaxis: {image.shape}")
 
 
