@@ -21,7 +21,6 @@ Route::get('/test-numpy-debug', function () {
     return response()->json(['debug_sys_path' => $output]);
 });
 Route::get('/test-numpy', function () {
-    // Добавляем ~/.local/lib/python3.10/site-packages в PYTHONPATH
     $output = shell_exec('PYTHONPATH=/home/x/xcrits31/.local/lib/python3.10/site-packages /usr/bin/python3 -c "import numpy; print(numpy.__version__)" 2>&1');
     return response()->json(['numpy_version' => $output]);
 });
