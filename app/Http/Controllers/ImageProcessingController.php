@@ -55,8 +55,12 @@ class ImageProcessingController extends Controller
             $transformation
         ];
 
-        $process = new Process($args);
+        $env = [
+            'PATH' => '/home/x/xcrits31/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games'
+        ];
+        $process = new Process([$pythonInterpreter, $scriptPath, $inputPath, $outputDir,$transformation], null, $env);
         $process->run();
+
 
         // Если произошла ошибка при выполнении скрипта, возвращаем её
         if (!$process->isSuccessful()) {
