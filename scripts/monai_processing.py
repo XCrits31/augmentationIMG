@@ -28,7 +28,7 @@ def main():
     output_dir = sys.argv[2]
 
     if not os.path.exists(input_path):
-        print(json.dumps({"error": f"Входной файл не найден: {input_path}"}))
+        print(json.dumps({"error": f"missing input file {input_path}"}))
         return
 
     os.makedirs(output_dir, exist_ok=True)
@@ -36,7 +36,7 @@ def main():
     transforms = Compose([
         LoadImage(image_only=True),
         EnsureChannelFirst(),
-        Rotate(angle=90),
+        Rotate(angle=180),
         Zoom(zoom=(1.5, 1.5)),
         ToTensor(),
     ])
@@ -48,7 +48,7 @@ def main():
     try:
         image = transforms(input_path)
     except Exception as e:
-        print(json.dumps({"error": f"Ошибка при обработке изображения: {str(e)}"}))
+        print(json.dumps({"error": f"error transforms: {str(e)}"}))
         return
 
 
@@ -94,7 +94,7 @@ def main():
         return
 
 
-    result = {"message": "Изображение обработано", "processed": output_path}
+    result = {"message": "image processed", "processed": output_path}
     print(json.dumps(result))
 
 if __name__ == '__main__':
