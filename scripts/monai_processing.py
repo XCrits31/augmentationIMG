@@ -87,6 +87,7 @@ def main():
     try:
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
         pil_image = pil_image.transpose(Image.ROTATE_270)
+        pil_image = pil_image.transpose(Image.FLIP_LEFT_RIGHT)
         pil_image.save(output_path)
 
     except Exception as e:
