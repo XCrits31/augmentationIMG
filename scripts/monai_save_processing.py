@@ -10,6 +10,7 @@ from monai.transforms import (
     ScaleIntensity,
     SaveImage,
     ToTensor,
+    Zoom,
 )
 
 def main():
@@ -24,7 +25,7 @@ def main():
     # Before the `Rotate` transform
     image, meta_data = LoadImage(image_only=False)(input_path)
     print(f"Image shape: {image.shape}, Image dtype: {image.dtype}")
-    
+
     # Check if the input file exists
     if not os.path.exists(input_path):
         print(json.dumps({"error": f"Input file not found: {input_path}"}))
@@ -38,6 +39,7 @@ def main():
         LoadImage(image_only=False),                # Load image along with metadata
         Rotate(angle=90, align_corners=True),       # Rotate 90 degrees
         ScaleIntensity(),                           # Optional normalization to [0, 1]
+        Zoom(zoom=(2.0, 2.0), keep_size=False),
         ToTensor(),                                 # Convert to PyTorch Tensor
     ])
 
