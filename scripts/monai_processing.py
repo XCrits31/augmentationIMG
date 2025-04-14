@@ -68,8 +68,8 @@ def main():
 
 
     # Normalize to uint8
-    if image.dtype != np.uint8:
-        image = (np.clip(image, 0, 1) * 255).astype(np.uint8)
+    #if image.dtype != np.uint8:
+        #image = (np.clip(image, 0, 1) * 255).astype(np.uint8)
 
     # Check mode for PIL
     if image.ndim == 2:  # Grayscale
@@ -87,7 +87,7 @@ def main():
         image = image[..., ::-1]
 
     # Save the image as PNG
-        pil_image = Image.fromarray(image, mode=mode)
+        pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
         pil_image.save(output_path)
         print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
 
