@@ -10,7 +10,6 @@ from monai.transforms import (
     ScaleIntensity,
     SaveImage,
     ToTensor,
-    Zoom,
 )
 
 def main():
@@ -39,7 +38,6 @@ def main():
         LoadImage(image_only=False),                # Load image along with metadata
         Rotate(angle=90, align_corners=True),       # Rotate 90 degrees
         ScaleIntensity(),                           # Optional normalization to [0, 1]
-        Zoom(zoom=(2.0, 2.0), keep_size=False),
         ToTensor(),                                 # Convert to PyTorch Tensor
     ])
 
