@@ -65,8 +65,7 @@ def main():
             image = image[0]  # Remove channel dimension
         elif image.shape[0] in [3, 4]:  # Channel-first RGB or RGBA
             image = np.moveaxis(image, 0, -1)  # Rearrange to channel-last
-            
-    print(f"Канал 1 (R): {image[..., 0].mean()}, Канал 2 (G): {image[..., 1].mean()}, Канал 3 (B): {image[..., 2].mean()}")
+
 
     # Normalize to uint8
     if image.dtype != np.uint8:
@@ -84,6 +83,8 @@ def main():
 
     try:
         print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
+
+    image = image[..., ::-1]
 
     # Save the image as PNG
         pil_image = Image.fromarray(image, mode=mode)
