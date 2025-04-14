@@ -61,7 +61,7 @@ class ImageProcessingController extends Controller
         $process = new Process([$pythonInterpreter, $scriptPath, $inputPath, $outputDir,$transformation], null, $env);
         $process->run();
 
-        echo shell_exec('which python3');
+
         // Если произошла ошибка при выполнении скрипта, возвращаем её
         if (!$process->isSuccessful()) {
             return back()->with('error', $process->getErrorOutput());
@@ -81,7 +81,7 @@ class ImageProcessingController extends Controller
 
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
         $outputPath = base_path("scripts/out/{$baseName}_processed.png");
-
+        echo shell_exec('which python3');
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'processedUrl', 'transformation'));
     }
