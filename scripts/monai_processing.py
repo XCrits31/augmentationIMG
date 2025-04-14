@@ -54,7 +54,6 @@ def main():
         image = torch.as_tensor(image)  # Convert to PyTorch Tensor
         image = image.numpy()
 
-    print(f"Первый пиксель: {image[0, 0]}, Средний пиксель: {image[960, 960]}, Последний пиксель: {image[-1, -1]}")
 
     if torch.is_tensor(image):  # Convert PyTorch to NumPy if necessary
         image = image.numpy()
@@ -85,7 +84,7 @@ def main():
         print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
 
     # Save the image as PNG
-        pil_image = Image.fromarray(image, mode=mode)
+        pil_image = Image.fromarray(image, mode="L")
         pil_image.save(output_path)
         print(f"Final image shape: {image.shape}, Mode: {mode}, Data type: {image.dtype}")
 
