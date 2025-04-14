@@ -36,8 +36,8 @@ def main():
     transforms = Compose([
         LoadImage(image_only=True),
         EnsureChannelFirst(),
-        Rotate(angle=180),
-        #Zoom(zoom=(1.5, 1.5)),
+        #Rotate(angle=180),
+        Zoom(zoom=(1.5, 1.5)),
         ToTensor(),
     ])
 
