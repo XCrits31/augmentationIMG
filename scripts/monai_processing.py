@@ -39,7 +39,7 @@ def main():
         LoadImage(image_only=True),
         EnsureChannelFirst(),
         Rotate(angle=90),
-        Zoom(zoom=(1.5, 1.5))
+        Zoom(zoom=(1.5, 1.5)),
         ToTensor(),
     ])
     base_name = os.path.basename(input_path)
