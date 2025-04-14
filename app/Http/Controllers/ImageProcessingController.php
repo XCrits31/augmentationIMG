@@ -35,8 +35,6 @@ class ImageProcessingController extends Controller
             mkdir($outputDir, 0755, true);
         }
 
-
-
         // Получаем выбранный тип трансформации (например: resize, grayscale, flip, default)
         $transformation = $request->input('transformation', 'default');
 
@@ -57,10 +55,7 @@ class ImageProcessingController extends Controller
             $transformation
         ];
 
-        $env = [
-            'PATH' => '/home/x/xcrits31/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games'
-        ];
-        $process = new Process([$pythonInterpreter, $scriptPath, $inputPath, $outputDir,$transformation], null, $env);
+        $process = new Process($args);
         $process->run();
 
         // Если произошла ошибка при выполнении скрипта, возвращаем её
@@ -82,7 +77,7 @@ class ImageProcessingController extends Controller
 
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
         $outputPath = base_path("scripts/out/{$baseName}_processed.png");
-
+        
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'processedUrl', 'transformation'));
     }
