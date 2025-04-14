@@ -14,3 +14,7 @@ Route::get('/', [BotController::class, 'index']);
 Route::get('/python-path', function () {
     return shell_exec('which python3');
 });
+Route::get('/test-numpy', function () {
+    $output = shell_exec('/usr/bin/python3 -c "import numpy; print(numpy.__version__)" 2>&1');
+    return response()->json(['numpy_version' => $output]);
+});
