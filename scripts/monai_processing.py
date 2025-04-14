@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import site
-site.addusersitepackages()
 import sys
+user_site = site.getusersitepackages()
+if user_site not in sys.path:
+    site.addsitedir(user_site)
 import json
 import os
 import numpy as np
