@@ -11,3 +11,6 @@ Route::get('/upload-image', [ImageProcessingController::class, 'showUploadForm']
 Route::post('/process-image', [ImageProcessingController::class, 'processImage']);
 
 Route::get('/', [BotController::class, 'index']);
+Route::get('/python-path', function () {
+    return shell_exec('which python3');
+});
