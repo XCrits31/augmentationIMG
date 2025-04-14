@@ -42,7 +42,7 @@ class ImageProcessingController extends Controller
         $scriptPath = base_path('scripts/monai_processing.py');
 
         // Если используете системный python3 (или укажите путь к python из venv)
-        $pythonInterpreter = 'python3';
+        $pythonInterpreter = base_path('venv/bin/python3');
 
         // Формируем аргументы для вызова python-скрипта:
         // Мы передаём: путь к входному файлу, путь к выходной директории и выбранную трансформацию
