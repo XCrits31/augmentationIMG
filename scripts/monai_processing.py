@@ -12,6 +12,7 @@ from monai.transforms import (
     ScaleIntensity,
     Resize,
     Rotate,
+    Zoom,
     SaveImage,
     ToTensor,
     EnsureChannelFirst
@@ -38,6 +39,7 @@ def main():
         LoadImage(image_only=True),
         EnsureChannelFirst(),
         Rotate(angle=90),
+        Zoom(zoom=(1.5, 1.5))
         ToTensor(),
     ])
     base_name = os.path.basename(input_path)
@@ -84,7 +86,6 @@ def main():
     try:
         print(f"-Final image shape: {image.shape}, Data type: {image.dtype}")
 
-        image = image[..., ::-1]
 
     # Save the image as PNG
         pil_image = Image.fromarray(image.astype(np.uint8), mode=mode)
