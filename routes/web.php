@@ -20,3 +20,7 @@ Route::get('/test-numpy-debug', function () {
     $output = shell_exec('/usr/bin/python3 -c "import sys; print(sys.path)" 2>&1');
     return response()->json(['debug_sys_path' => $output]);
 });
+Route::get('/test-numpy', function () {
+    $output = shell_exec('PYTHONPATH=$HOME/.local/lib/python3.10/site-packages /usr/bin/python3 -c "import numpy; print(numpy.__version__)" 2>&1');
+    return response()->json(['numpy_version' => $output]);
+});
