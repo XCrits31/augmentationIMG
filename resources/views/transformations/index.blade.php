@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="container">
-        <h1>Список трансформаций</h1>
+        <h1>transformations list</h1>
 
         @if($transformations->isEmpty())
-            <p>Нет сохранённых трансформаций.</p>
+            <p>no transformations yet</p>
         @else
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>image name/th>
+                    <th>image name</th>
                     <th>original image</th>
                     <th>transformations</th>
                     <th>image</th>
