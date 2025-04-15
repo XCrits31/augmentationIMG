@@ -125,28 +125,42 @@
         <input type="number" step="0.1" name="zoom[zoom]" id="zoom-zoom">
     </div>
 
-    <!-- Параметры для Noise -->
     <div id="noise-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Gaussian Noise</h4>
-        <label for="noise-intensity">Intensity:</label>
-        <input type="number" step="0.1" name="noise[intensity]" id="noise-intensity">
+        <label for="noise-mean">Mean:</label>
+        <input type="number" step="0.1" name="noise[mean]" id="noise-mean">
+        <label for="noise-std">Standard Deviation:</label>
+        <input type="number" step="0.1" name="noise[std]" id="noise-std">
+        <label for="noise-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="noise[prob]" id="noise-prob">
     </div>
 
-    <!-- Параметры для Scale Intensity -->
     <div id="scale_intensity-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Scale Intensity</h4>
-        <label for="scale_intensity-factor">Scale Factor:</label>
-        <input type="number" step="0.1" name="scale_intensity[factor]" id="scale_intensity-factor">
+        <label for="scale-min">Min Factor:</label>
+        <input type="number" step="0.1" name="scale_intensity[min]" id="scale-min">
+        <label for="scale-max">Max Factor:</label>
+        <input type="number" step="0.1" name="scale_intensity[max]" id="scale-max">
+        <label for="scale-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="scale_intensity[prob]" id="scale-prob">
     </div>
 
-    <!-- Параметры для Elastic Transform -->
+
     <div id="elastic-parameters" class="parameters" style="display: none;">
-        <h4>Parameters for Elastic Transform</h4>
-        <label for="elastic-alpha">Alpha:</label>
-        <input type="number" step="0.1" name="elastic[alpha]" id="elastic-alpha">
-        <label for="elastic-sigma">Sigma:</label>
-        <input type="number" step="0.1" name="elastic[sigma]" id="elastic-sigma">
+        <h4>Parameters for Elastic Transformation</h4>
+        <label for="elastic-min-mag">Min Magnitude:</label>
+        <input type="number" step="0.1" name="elastic[min_el]" id="elastic-min-mag">
+        <label for="elastic-max-mag">Max Magnitude:</label>
+        <input type="number" step="0.1" name="elastic[max_el]" id="elastic-max-mag">
+        <label for="elastic-space1">Spacing Dimension 1:</label>
+        <input type="number" step="1" name="elastic[space1]" id="elastic-space1">
+        <label for="elastic-space2">Spacing Dimension 2:</label>
+        <input type="number" step="1" name="elastic[space2]" id="elastic-space2">
+        <label for="elastic-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="elastic[prob]" id="elastic-prob">
     </div>
+
+
 
     <!-- Скрытое поле для передачи всех трансформаций -->
     <input type="hidden" id="transformations-data" name="transformations_data" value="">

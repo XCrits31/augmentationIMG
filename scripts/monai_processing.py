@@ -74,8 +74,8 @@ def build_composite_transformations(transformations):
         elif name == "zoom":
             # Zoom: Требует zoom (tuple of floats)
             if "zoom" in params:
-                zoom_factors = tuple(map(float, params["zoom"]))
-                transform_list.append(Zoom(zoom=zoom_factors))
+                zoom = float(params["zoom"])
+                transform_list.append(Zoom(zoom=zoom))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
@@ -100,18 +100,16 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'min', 'max' or 'prob' parameters for transformation '{name}'")
 
         elif name == "elastic":
-            # Rand2DElastic: Требует magnitude_range, spacing (tuple), prob
+            # Rand2DElastic: Требует magnitude_range, spacing, prob
             required_keys = ["min_el", "max_el", "space1", "space2", "prob"]
             if all(key in params for key in required_keys):
                 magnitude_range = (float(params["min_el"]), float(params["max_el"]))
-                spacing = (float(params["space1"]), float(params["space2"]))
+                spacing = (int(params["space1"]), int(params["space2"]))
                 prob = float(params["prob"])
                 transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=prob))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
-        else:
-            raise ValueError(f"Unsupported transformation '{name}'")
 
     # Финальный шаг преобразования в тензор
     transform_list.append(ToTensor())
