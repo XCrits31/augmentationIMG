@@ -4,6 +4,7 @@ import json
 import os
 import numpy as np
 import torch
+import hashlib
 from monai.data import MetaTensor
 from PIL import Image
 from monai.transforms import (
@@ -142,10 +143,10 @@ def main():
         #ToTensor(),
     #])
     transforms = Compose(build_composite_transformations(transformations))
-
+    unique_identifier = hashlib.md5(f"{input_path}_{transformations_json}".encode()).hexdigest()[:8]
     base_name = os.path.basename(input_path)
     name, ext = os.path.splitext(base_name)
-    output_path = os.path.join(output_dir, f"{name}_processed.png")
+    output_path = os.path.join(output_dir, f"{name}_processed_{unique_identifier}.png")
 
     try:
         image = transforms(input_path)
