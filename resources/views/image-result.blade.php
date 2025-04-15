@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Результат обработки изображения</title>
+@extends('layouts.app')
+
+@section('content')
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -84,8 +82,6 @@
             color: red;
         }
     </style>
-</head>
-<body>
 <h1>Результат обработки</h1>
 
 <div class="image-row">
@@ -131,5 +127,4 @@
 </div>
 
 <a href="/upload-image">Загрузить другое изображение</a>
-</body>
-</html>
+@endsection
