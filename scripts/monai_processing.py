@@ -26,6 +26,9 @@ def main():
 
     input_path = sys.argv[1]
     output_dir = sys.argv[2]
+    transformations_json = sys.argv[3]
+
+    transformations = json.loads(transformations_json)
 
     if not os.path.exists(input_path):
         print(json.dumps({"error": f"missing input file {input_path}"}))

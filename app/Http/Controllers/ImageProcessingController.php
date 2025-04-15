@@ -52,7 +52,7 @@ class ImageProcessingController extends Controller
             $scriptPath,
             $inputPath,
             $outputDir,
-            $transformation
+            json_encode($transformations),
         ];
 
         $process = new Process($args);
@@ -79,6 +79,6 @@ class ImageProcessingController extends Controller
         $outputPath = asset($basePath . $processedFilename);
 
         // Передаем данные в представление результата
-        return view('image-result', compact('originalUrl', 'outputPath', 'transformation'));
+        return view('image-result', compact('originalUrl', 'outputPath', 'transformations'));
     }
 }

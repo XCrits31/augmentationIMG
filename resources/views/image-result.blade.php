@@ -9,8 +9,8 @@
 
 <h2>Исходное изображение:{{ $originalUrl }}"</h2>
 <img src="{{ $originalUrl }}" alt="Исходное изображение" style="max-width: 45%;">
-
-<h2>Обработанное изображение ({{ $transformation }}):{{$outputPath}}</h2>
+({{ $transformations }})
+<h2>Обработанное изображение :{{$outputPath}}</h2>
 <img src="{{ $outputPath }}" alt="Обработанное изображение" style="max-width: 45%;">
 
 <br><br>
