@@ -56,7 +56,7 @@ class ImageProcessingController extends Controller
         ];
 
         $process = new Process($args);
-        $process->run();
+        $out = $process->run();
 
         // Если произошла ошибка при выполнении скрипта, возвращаем её
         if (!$process->isSuccessful()) {
@@ -79,6 +79,6 @@ class ImageProcessingController extends Controller
         $outputPath = asset($basePath . $processedFilename);
 
         // Передаем данные в представление результата
-        return view('image-result', compact('originalUrl', 'outputPath', 'transformations'));
+        return view('image-result', compact('originalUrl', 'out', 'transformations'));
     }
 }

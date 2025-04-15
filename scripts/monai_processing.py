@@ -199,8 +199,8 @@ def main():
         return
 
 
-    result = {"message": "image processed", "processed": output_path}
-    print(json.dumps(result))
+    result = {output_path}
+    return result
 
 if __name__ == '__main__':
     main()
