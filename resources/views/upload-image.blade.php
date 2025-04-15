@@ -141,12 +141,12 @@
 <form action="/process-image" method="POST" enctype="multipart/form-data">
     @csrf
     <div>
-        <label for="image">Выберите изображение:</label>
+        <label for="image">image:</label>
         <input type="file" name="image" id="image" required>
     </div>
     <br>
 
-    <h3>Выберите трансформации:</h3>
+    <h3>Transformations</h3>
     <div>
         <label><input type="checkbox" class="transformation" name="transformations[]" value="contrast" onclick="updateFormFields()"> Adjust Contrast</label>
         <label><input type="checkbox" class="transformation" name="transformations[]" value="flip" onclick="updateFormFields()"> Flip</label>
