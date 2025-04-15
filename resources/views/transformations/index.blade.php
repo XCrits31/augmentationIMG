@@ -22,7 +22,7 @@
                     <tr>
                         <td>{{ $transformation->id }}</td>
                         <td>{{ $transformation->image_name }}</td>
-                        @if(!empty($transformation->transformations))
+                        <td>@if(!empty($transformation->transformations))
                             <ul>
                                 @foreach(json_decode($transformation->transformations, true) as $index => $transformationItem)
                                     <li>
@@ -35,7 +35,7 @@
                                     </li>
                                 @endforeach
                             </ul>
-                        @endif
+                        @endif</td>
                         <td>
                             <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Output Image" style="width: 100px;">
                         </td>
