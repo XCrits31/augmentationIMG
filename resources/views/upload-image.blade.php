@@ -3,6 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Загрузка и трансформация изображения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        form {
+            display: inline-block;
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="file"], input[type="text"] {
+            font-size: 14px;
+            padding: 8px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .parameters {
+            display: none;
+            margin-left: 25px;
+            padding: 10px;
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+
     <script>
         // Показ или скрытие полей для параметров в зависимости от выбранной трансформации
         function updateFormFields() {
