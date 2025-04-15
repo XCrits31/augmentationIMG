@@ -198,8 +198,14 @@ def main():
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
         return
 
-    result = {"message": "Image processed", "processed": output_path}
+    result = {
+        "message": "Image processed successfully!",
+        "processed": output_path
+    }
+
+    # Печатаем JSON, чтобы PHP мог его прочитать
     print(json.dumps(result))
+
 
 
 if __name__ == '__main__':
