@@ -115,7 +115,7 @@ def build_composite_transformations(transformations):
     # Финальный шаг преобразования в тензор
     transform_list.append(ToTensor())
 
-    return Compose(transform_list)
+    return transform_list
 
 def main():
     if len(sys.argv) < 3:
@@ -141,8 +141,8 @@ def main():
         #Zoom(zoom=(1.5, 1.5)),
         #ToTensor(),
     #])
-    transforms = build_composite_transformations(transformations)
-    
+    transforms = Compose(build_composite_transformations(transformations))
+
     base_name = os.path.basename(input_path)
     name, ext = os.path.splitext(base_name)
     output_path = os.path.join(output_dir, f"{name}_processed.png")
