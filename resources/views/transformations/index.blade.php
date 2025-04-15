@@ -22,7 +22,21 @@
                     <tr>
                         <td>{{ $transformation->id }}</td>
                         <td>{{ $transformation->image_name }}</td>
-                        <td>{{ json_encode(json_decode($transformation->transformations), JSON_PRETTY_PRINT) }}</td>
+                        @if(!empty($transformations))
+                            <ul>
+                                @foreach(json_decode($transformations, true) as $index => $transformation)
+                                    <li>
+                                        <strong>Transformation {{ $index + 1 }}:</strong> {{ ucfirst($transformation['transformation']) }}
+                                        <ul>
+                                            @foreach($transformation['parameters'] as $key => $value)
+                                                <li>{{ ucfirst($key) }}: {{ is_bool($value) ? ($value ? 'true' : 'false') : $value }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+
                         <td>
                             <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Output Image" style="width: 100px;">
                         </td>
