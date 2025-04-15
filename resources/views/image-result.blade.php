@@ -82,7 +82,7 @@
             color: red;
         }
     </style>
-<h1>result/h1>
+<h1>result</h1>
 
 <div class="image-row">
     <div class="image-container">
