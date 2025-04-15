@@ -56,8 +56,10 @@ class ImageProcessingController extends Controller
         ];
 
         $process = new Process($args);
-        $out = $process->run();
-
+        $process->run();
+        $output = json_decode($process->getOutput(), true);
+        $processedPath = $output['processed'];
+        $out = asset('storage/processed/' . basename($processedPath));
         // Если произошла ошибка при выполнении скрипта, возвращаем её
         if (!$process->isSuccessful()) {
             return back()->with('error', $process->getErrorOutput());

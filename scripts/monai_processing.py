@@ -198,7 +198,9 @@ def main():
         print(json.dumps({"error": f"Failed to save the image: {str(e)}"}))
         return
 
-return output_path
+    result = {"message": "Image processed", "processed": output_path}
+    print(json.dumps(result))
+
 
 if __name__ == '__main__':
     main()
