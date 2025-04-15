@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transformation;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -77,10 +78,23 @@ class ImageProcessingController extends Controller
         $processedFilename = pathinfo($originalName, PATHINFO_FILENAME) . '_processed.png';
         $basePath = 'storage/processed/';
 
+        $transformation = Transformation::create([
+            'image_name' => $originalName,
+            'transformations' => json_encode($transformations),
+            'output_image' => basename($processedPath),
+        ]);
+
         $baseName = pathinfo($originalName, PATHINFO_FILENAME); // получаем имя файла без расширения
         $outputPath = asset($basePath . $processedFilename);
 
         // Передаем данные в представление результата
         return view('image-result', compact('originalUrl', 'out', 'transformations'));
     }
+    public function showTransformations()
+    {
+        $transformations = Transformation::all();
+
+        return view('transformations.index', compact('transformations'));
+    }
+
 }
