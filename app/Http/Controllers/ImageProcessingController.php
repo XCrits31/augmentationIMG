@@ -37,7 +37,7 @@ class ImageProcessingController extends Controller
 
         // Получаем выбранный тип трансформации (например: resize, grayscale, flip, default)
         $transformations = json_decode($request->input('transformations_data'), true);
-        dd($transformations);
+        //dd($transformations);
         // Путь к Python-скрипту, который осуществляет обработку (его надо разместить, например, в /scripts)
         $scriptPath = base_path('scripts/monai_processing.py');
 
