@@ -17,6 +17,49 @@
                 }
             });
         }
+
+        // Сбор всех выбранных трансформаций и их параметров
+        function collectTransformations() {
+            const transformations = [];
+
+            // Получаем все выбранные трансформации
+            const selectedTransforms = Array.from(document.querySelectorAll(".transformation:checked"));
+
+            selectedTransforms.forEach(checkbox => {
+                const transformName = checkbox.value;
+                const params = {};
+
+                // Для каждой трансформации собираем параметры (если есть)
+                const paramDiv = document.getElementById(transformName + "-parameters");
+                if (paramDiv) {
+                    const inputs = paramDiv.querySelectorAll("input");
+                    inputs.forEach(input => {
+                        if (input.type === "checkbox") {
+                            params[input.name.split('[')[1].replace(']', '')] = input.checked; // Для чекбоксов
+                        } else {
+                            params[input.name.split('[')[1].replace(']', '')] = input.value; // Для других input
+                        }
+                    });
+                }
+
+                // Добавляем трансформацию и её параметры в массив
+                transformations.push({ transformation: transformName, parameters: params });
+            });
+
+            // Отправляем собранные данные в скрытое поле формы
+            const hiddenField = document.getElementById("transformations-data");
+            if (hiddenField) {
+                hiddenField.value = JSON.stringify(transformations);
+            }
+        }
+
+        // При отправке формы вызываем сбор трансформаций
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", collectTransformations);
+            }
+        });
     </script>
 </head>
 <body>
@@ -67,7 +110,7 @@
     <!-- Параметры для Rotate -->
     <div id="rotate-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Rotate</h4>
-        <label for="rotate-range">Range X:</label>
+        <label for="rotate-range">Range:</label>
         <input type="number" step="1" name="rotate[range]" id="rotate-range">
         <label for="rotate-prob">Probability:</label>
         <input type="number" step="0.1" name="rotate[prob]" id="rotate-prob">
@@ -82,45 +125,33 @@
         <input type="number" step="0.1" name="zoom[zoom]" id="zoom-zoom">
     </div>
 
-    <!-- Параметры для Gaussian Noise -->
+    <!-- Параметры для Noise -->
     <div id="noise-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Gaussian Noise</h4>
-        <label for="noise-mean">Mean:</label>
-        <input type="number" step="0.1" name="noise[mean]" id="noise-mean">
-        <label for="noise-std">Std:</label>
-        <input type="number" step="0.1" name="noise[std]" id="noise-std">
-        <label for="noise-prob">Probability:</label>
-        <input type="number" step="0.1" name="noise[prob]" id="noise-prob">
+        <label for="noise-intensity">Intensity:</label>
+        <input type="number" step="0.1" name="noise[intensity]" id="noise-intensity">
     </div>
 
     <!-- Параметры для Scale Intensity -->
     <div id="scale_intensity-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Scale Intensity</h4>
-        <label for="scale-min">Min:</label>
-        <input type="number" step="0.1" name="scale_intensity[min]" id="scale-min">
-        <label for="scale-max">Max:</label>
-        <input type="number" step="0.1" name="scale_intensity[max]" id="scale-max">
-        <label for="scale-prob">Probability:</label>
-        <input type="number" step="0.1" name="scale_intensity[prob]" id="scale-prob">
+        <label for="scale_intensity-factor">Scale Factor:</label>
+        <input type="number" step="0.1" name="scale_intensity[factor]" id="scale_intensity-factor">
     </div>
 
     <!-- Параметры для Elastic Transform -->
     <div id="elastic-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Elastic Transform</h4>
-        <label for="elastic-min">Magnitude Min:</label>
-        <input type="number" step="0.1" name="elastic[min_el]" id="elastic-min">
-        <label for="elastic-max">Magnitude Max:</label>
-        <input type="number" step="0.1" name="elastic[max_el]" id="elastic-max">
-        <label for="elastic-spacing1">Spacing 1:</label>
-        <input type="number" step="0.1" name="elastic[space1]" id="elastic-spacing1">
-        <label for="elastic-spacing2">Spacing 2:</label>
-        <input type="number" step="0.1" name="elastic[space2]" id="elastic-spacing2">
-        <label for="elastic-prob">Probability:</label>
-        <input type="number" step="0.1" name="elastic[prob]" id="elastic-prob">
+        <label for="elastic-alpha">Alpha:</label>
+        <input type="number" step="0.1" name="elastic[alpha]" id="elastic-alpha">
+        <label for="elastic-sigma">Sigma:</label>
+        <input type="number" step="0.1" name="elastic[sigma]" id="elastic-sigma">
     </div>
 
-    <br>
-    <button type="submit">Обработать изображение</button>
+    <!-- Скрытое поле для передачи всех трансформаций -->
+    <input type="hidden" id="transformations-data" name="transformations_data" value="">
+
+    <button type="submit">Обработать</button>
 </form>
 </body>
 </html>

@@ -20,7 +20,7 @@ class ImageProcessingController extends Controller
         // Валидируем входные данные: изображение и выбранный тип трансформации
         $request->validate([
             'image' => 'required|image|max:10240', // максимум 10 МБ
-            'transformation' => 'required|string',
+            'transformations_data' => 'required|string',
         ]);
 
         // Сохраняем загруженное изображение в storage/app/public/uploads
@@ -36,8 +36,8 @@ class ImageProcessingController extends Controller
         }
 
         // Получаем выбранный тип трансформации (например: resize, grayscale, flip, default)
-        $transformation = $request->input('transformation', 'default');
-
+        $transformations = json_decode($request->input('transformations_data'), true);
+        dd($transformations);
         // Путь к Python-скрипту, который осуществляет обработку (его надо разместить, например, в /scripts)
         $scriptPath = base_path('scripts/monai_processing.py');
 
