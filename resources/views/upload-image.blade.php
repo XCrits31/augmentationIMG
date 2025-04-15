@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Загрузка и трансформация изображения</title>
+@extends('layouts.app')
+
+@section('content')
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -141,8 +139,6 @@
             }
         });
     </script>
-</head>
-<body>
 <h1>Загрузите изображение и выберите трансформации</h1>
 
 @if(session('error'))
@@ -235,5 +231,4 @@
 
     <button type="submit">Обработать</button>
 </form>
-</body>
-</html>
+@endsection

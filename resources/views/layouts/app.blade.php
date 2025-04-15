@@ -9,7 +9,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">Главная</a>
+        <a class="navbar-brand" href="{{ url('/upload-image') }}">Main Creation</a>
     </div>
 </nav>
 
