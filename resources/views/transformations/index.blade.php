@@ -40,6 +40,10 @@
                             <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Output Image" style="width: 100px;">
                         </td>
                         <td>{{ $transformation->created_at }}</td>
+                        <td> <a href="{{ asset('storage/processed/' . $transformation->output_image) }}" download>
+                                Скачать картинку
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
