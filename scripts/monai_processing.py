@@ -44,7 +44,7 @@ def build_composite_transformations(transformations):
 
         if name == "contrast":
             # RandAdjustContrast: Требует prob, gamma
-            if "prob" in params and "gamma" in params:
+            if "gamma" in params:
                 gamma = float(params["gamma"])
                 transform_list.append(RandAdjustContrast(prob=1, gamma=gamma))
             else:
@@ -52,7 +52,7 @@ def build_composite_transformations(transformations):
 
         elif name == "flip":
             # RandFlip: Требует prob, spatial_axis
-            if "prob" in params and "axis" in params:
+            if "axis" in params:
                 axis = int(params["axis"])
                 transform_list.append(RandFlip(prob=1, spatial_axis=1))
             else:
@@ -60,7 +60,7 @@ def build_composite_transformations(transformations):
 
         elif name == "rotate":
             # RandRotate: Требует range_x, prob, keep_size
-            required_keys = ["range", "prob", "keep_size"]
+            required_keys = ["range", "keep_size"]
             if all(key in params for key in required_keys):
                 range_x = float(params["range"])
                 keep_size = params["keep_size"] in [True, "true", "True", 1]  # Приведение к bool
@@ -78,7 +78,7 @@ def build_composite_transformations(transformations):
 
         elif name == "noise":
             # RandGaussianNoise: Требует mean, std, prob
-            required_keys = ["mean", "std", "prob"]
+            required_keys = ["mean", "std"]
             if all(key in params for key in required_keys):
                 mean = float(params["mean"])
                 std = float(params["std"])
@@ -88,7 +88,7 @@ def build_composite_transformations(transformations):
 
         elif name == "scale_intensity":
             # RandScaleIntensity: Требует factors (tuple of floats), prob
-            if "min" in params and "max" in params and "prob" in params:
+            if "min" in params and "max" in params:
                 factors = (float(params["min"]), float(params["max"]))
                 transform_list.append(RandScaleIntensity(factors=factors, prob=1))
             else:
@@ -96,7 +96,7 @@ def build_composite_transformations(transformations):
 
         elif name == "elastic":
             # Rand2DElastic: Требует magnitude_range, spacing, prob
-            required_keys = ["min_el", "max_el", "space1", "space2", "prob"]
+            required_keys = ["min_el", "max_el", "space1", "space2"]
             if all(key in params for key in required_keys):
                 magnitude_range = (float(params["min_el"]), float(params["max_el"]))
                 spacing = (int(params["space1"]), int(params["space2"]))
