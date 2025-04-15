@@ -22,28 +22,16 @@ from monai.transforms import (
 )
 
 def build_composite_transformations(transformations):
-    """
-    Создает объект MONAI `Compose` на основе переданного массива трансформаций.
-    Все параметры передаются исключительно из массива, и ошибки поднимаются при их отсутствии.
-
-    Args:
-        transformations (list): Список трансформаций и их параметров (например, JSON).
-
-    Returns:
-        Compose: Объект с последовательными динамическими преобразованиями.
-    """
     transform_list = [
         LoadImage(image_only=True),
         EnsureChannelFirst(),
     ]
 
-    # Проход по всем переданным трансформациям
     for transformation in transformations:
         name = transformation["transformation"]
         params = transformation.get("parameters", {})
 
         if name == "contrast":
-            # RandAdjustContrast: Требует prob, gamma
             if "gamma" in params:
                 gamma = float(params["gamma"])
                 transform_list.append(RandAdjustContrast(prob=1, gamma=gamma))
@@ -51,7 +39,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'prob' or 'gamma' parameter for transformation '{name}'")
 
         elif name == "flip":
-            # RandFlip: Требует prob, spatial_axis
             if "axis" in params:
                 axis = int(params["axis"])
                 transform_list.append(RandFlip(prob=1, spatial_axis=1))
@@ -59,7 +46,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'prob' or 'axis' parameter for transformation '{name}'")
 
         elif name == "rotate":
-            # RandRotate: Требует range_x, prob, keep_size
             required_keys = ["range", "keep_size"]
             if all(key in params for key in required_keys):
                 range_x = float(params["range"])
@@ -69,7 +55,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "zoom":
-            # Zoom: Требует zoom (tuple of floats)
             if "zoom" in params:
                 zoom = float(params["zoom"])
                 transform_list.append(Zoom(zoom=zoom))
@@ -77,7 +62,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
         elif name == "noise":
-            # RandGaussianNoise: Требует mean, std, prob
             required_keys = ["mean", "std"]
             if all(key in params for key in required_keys):
                 mean = float(params["mean"])
@@ -87,7 +71,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "scale_intensity":
-            # RandScaleIntensity: Требует factors (tuple of floats), prob
             if "min" in params and "max" in params:
                 factors = (float(params["min"]), float(params["max"]))
                 transform_list.append(RandScaleIntensity(factors=factors, prob=1))
@@ -95,7 +78,6 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'min', 'max' or 'prob' parameters for transformation '{name}'")
 
         elif name == "elastic":
-            # Rand2DElastic: Требует magnitude_range, spacing, prob
             required_keys = ["min_el", "max_el", "space1", "space2"]
             if all(key in params for key in required_keys):
                 magnitude_range = (float(params["min_el"]), float(params["max_el"]))
@@ -105,7 +87,7 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
 
-    # Финальный шаг преобразования в тензор
+
     transform_list.append(ToTensor())
 
     return transform_list
@@ -192,7 +174,6 @@ def main():
         "processed": output_path
     }
 
-    # Печатаем JSON, чтобы PHP мог его прочитать
     print(json.dumps(result))
 
 

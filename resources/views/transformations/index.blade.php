@@ -10,12 +10,12 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Имя изображения</th>
+                    <th>id</th>
+                    <th>image name/th>
                     <th>original image</th>
-                    <th>Трансформации</th>
-                    <th>Обработанное изображение</th>
-                    <th>Дата создания</th>
+                    <th>transformations</th>
+                    <th>image</th>
+                    <th>Created at</th>
                     <th>Download</th>
                 </tr>
                 </thead>
@@ -46,7 +46,7 @@
                         </td>
                         <td>{{ $transformation->created_at }}</td>
                         <td> <a href="{{ asset('storage/processed/' . $transformation->output_image) }}" download>
-                                Скачать картинку
+                                Download
                             </a>
                         </td>
                     </tr>

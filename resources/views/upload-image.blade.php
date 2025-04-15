@@ -82,32 +82,28 @@
     </style>
 
     <script>
-        // Показ или скрытие полей для параметров в зависимости от выбранной трансформации
         function updateFormFields() {
             const transformationFields = document.querySelectorAll(".parameters");
-            transformationFields.forEach(field => field.style.display = "none"); // Скрываем все поля
+            transformationFields.forEach(field => field.style.display = "none");
 
             const selectedTransforms = Array.from(document.querySelectorAll(".transformation:checked"));
             selectedTransforms.forEach(selected => {
                 const paramDiv = document.getElementById(selected.value + "-parameters");
                 if (paramDiv) {
-                    paramDiv.style.display = "block"; // Показываем параметры для выбранной трансформации
+                    paramDiv.style.display = "block";
                 }
             });
         }
 
-        // Сбор всех выбранных трансформаций и их параметров
         function collectTransformations() {
             const transformations = [];
 
-            // Получаем все выбранные трансформации
             const selectedTransforms = Array.from(document.querySelectorAll(".transformation:checked"));
 
             selectedTransforms.forEach(checkbox => {
                 const transformName = checkbox.value;
                 const params = {};
 
-                // Для каждой трансформации собираем параметры (если есть)
                 const paramDiv = document.getElementById(transformName + "-parameters");
                 if (paramDiv) {
                     const inputs = paramDiv.querySelectorAll("input");
@@ -120,18 +116,15 @@
                     });
                 }
 
-                // Добавляем трансформацию и её параметры в массив
                 transformations.push({ transformation: transformName, parameters: params });
             });
 
-            // Отправляем собранные данные в скрытое поле формы
             const hiddenField = document.getElementById("transformations-data");
             if (hiddenField) {
                 hiddenField.value = JSON.stringify(transformations);
             }
         }
 
-        // При отправке формы вызываем сбор трансформаций
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.querySelector("form");
             if (form) {
@@ -139,7 +132,7 @@
             }
         });
     </script>
-<h1>Загрузите изображение и выберите трансформации</h1>
+<h1>transformations</h1>
 
 @if(session('error'))
     <p style="color: red;">{{ session('error') }}</p>
@@ -165,21 +158,20 @@
     </div>
     <br>
 
-    <!-- Параметры для Adjust Contrast -->
+
     <div id="contrast-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Adjust Contrast</h4>
         <label for="contrast-gamma">Gamma:</label>
         <input type="number" step="0.1" name="contrast[gamma]" id="contrast-gamma">
     </div>
 
-    <!-- Параметры для Flip -->
+
     <div id="flip-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Flip</h4>
         <label for="flip-axis">Axis:</label>
         <input type="number" name="flip[axis]" id="flip-axis">
     </div>
 
-    <!-- Параметры для Rotate -->
     <div id="rotate-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Rotate</h4>
         <label for="rotate-range">Range:</label>
@@ -188,7 +180,6 @@
         <input type="checkbox" name="rotate[keep_size]" id="rotate-keep">
     </div>
 
-    <!-- Параметры для Zoom -->
     <div id="zoom-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Zoom</h4>
         <label for="zoom-zoom">Zoom:</label>
@@ -226,9 +217,8 @@
 
 
 
-    <!-- Скрытое поле для передачи всех трансформаций -->
     <input type="hidden" id="transformations-data" name="transformations_data" value="">
 
-    <button type="submit">Обработать</button>
+    <button type="submit">Submit</button>
 </form>
 @endsection

@@ -82,21 +82,21 @@
             color: red;
         }
     </style>
-<h1>Результат обработки</h1>
+<h1>result/h1>
 
 <div class="image-row">
     <div class="image-container">
-        <h2>Исходное изображение</h2>
-        <img src="{{ $originalUrl }}" alt="Исходное изображение">
+        <h2>original image</h2>
+        <img src="{{ $originalUrl }}" alt="original image">
     </div>
     <div class="image-container">
-        <h2>Обработанное изображение</h2>
-        <img src="{{ $out }}" alt="Обработанное изображение">
+        <h2>image</h2>
+        <img src="{{ $out }}" alt="image">
     </div>
 </div>
 
 <div class="transformations">
-    <h2>Применённые трансформации</h2>
+    <h2>transformations</h2>
     @if(!empty($transformations))
         <ul>
             @foreach($transformations as $transformation)
@@ -116,15 +116,15 @@
                             @endforeach
                         </ul>
                     @else
-                        (Нет параметров)
+                        (no params)
                     @endif
                 </li>
             @endforeach
         </ul>
     @else
-        <p class="no-transformations">Трансформации не были выбраны.</p>
+        <p class="no-transformations">no transformations</p>
     @endif
 </div>
 
-<a href="/upload-image">Загрузить другое изображение</a>
+<a href="/upload-image">back</a>
 @endsection
