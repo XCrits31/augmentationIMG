@@ -12,9 +12,11 @@
                 <tr>
                     <th>#</th>
                     <th>Имя изображения</th>
+                    <th>original image</th>
                     <th>Трансформации</th>
                     <th>Обработанное изображение</th>
                     <th>Дата создания</th>
+                    <th>Download</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,6 +24,9 @@
                     <tr>
                         <td>{{ $transformation->id }}</td>
                         <td>{{ $transformation->image_name }}</td>
+                        <td>
+                            <img src="{{ asset('storage/uploads/' . $transformation->image_name) }}" alt="original Image" style="width: 100px;">
+                        </td>
                         <td>@if(!empty($transformation->transformations))
                             <ul>
                                 @foreach(json_decode($transformation->transformations, true) as $index => $transformationItem)
