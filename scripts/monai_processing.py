@@ -164,15 +164,12 @@ def main():
     if torch.is_tensor(image):
         image = image.numpy()
 
-    print(f"Shape before moveaxis: {image.shape}")
-
     if len(image.shape) == 3:
         if image.shape[0] == 1:
             image = image[0]
         elif image.shape[0] in [3, 4]:
             image = np.moveaxis(image, 0, -1)
             #image = np.flip(image, axis=2)
-    print(f"Shape before moveaxis: {image.shape}")
 
 
     # Normalize to uint8
