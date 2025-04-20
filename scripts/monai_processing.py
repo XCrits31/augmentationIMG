@@ -108,8 +108,7 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Unknown transformation: '{name}'")
 
         transform_list.append(ToTensor())
-
-        return transform_list
+return transform_list
 
 
 def main():
