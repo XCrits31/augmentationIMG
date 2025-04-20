@@ -28,87 +28,89 @@ def build_composite_transformations(transformations):
     ]
 
     for transformation in transformations:
-            name = transformation["transformation"]
-            params = transformation.get("parameters", {})
+        name = transformation["transformation"]
+        params = transformation.get("parameters", {})
 
-            if name == "contrast":
-                required_keys = ["prob", "gamma"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    gamma = float(params["gamma"])
-                    transform_list.append(RandAdjustContrast(prob=prob, gamma=gamma))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "flip":
-                required_keys = ["prob", "axis"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    axis = int(params["axis"])
-                    transform_list.append(RandFlip(prob=prob, spatial_axis=axis))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "rotate":
-                required_keys = ["prob", "range", "keep_size"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    range_x = float(params["range"])
-                    keep_size = params["keep_size"] in [True, "true", "True", 1]  # Convert to boolean
-                    transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=keep_size))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "zoom":
-                required_keys = ["prob", "zoom"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    zoom = float(params["zoom"])
-                    transform_list.append(RandZoom(zoom=zoom, prob=prob))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "noise":
-                required_keys = ["prob", "mean", "std"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    mean = float(params["mean"])
-                    std = float(params["std"])
-                    transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=prob))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "scale_intensity":
-                required_keys = ["prob", "min", "max"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    factors = (float(params["min"]), float(params["max"]))
-                    transform_list.append(RandScaleIntensity(factors=factors, prob=prob))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
-            elif name == "elastic":
-                required_keys = ["prob", "min_el", "max_el", "space1", "space2"]
-                if all(key in params for key in required_keys):
-                    prob = float(params["prob"])
-                    magnitude_range = (float(params["min_el"]), float(params["max_el"]))
-                    spacing = (int(params["space1"]), int(params["space2"]))
-                    transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=prob))
-                else:
-                    missing_keys = [key for key in required_keys if key not in params]
-                    raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
-
+        if name == "contrast":
+            required_keys = ["prob", "gamma"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                gamma = float(params["gamma"])
+                transform_list.append(RandAdjustContrast(prob=prob, gamma=gamma))
             else:
-                raise ValueError(f"Unknown transformation: '{name}'")
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
 
-        transform_list.append(ToTensor())
-return transform_list
+        elif name == "flip":
+            required_keys = ["prob", "axis"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                axis = int(params["axis"])
+                transform_list.append(RandFlip(prob=prob, spatial_axis=axis))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        elif name == "rotate":
+            required_keys = ["prob", "range", "keep_size"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                range_x = float(params["range"])
+                keep_size = params["keep_size"] in [True, "true", "True", 1]
+                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=keep_size))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        elif name == "zoom":
+            required_keys = ["prob", "zoom"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                zoom = float(params["zoom"])
+                transform_list.append(RandZoom(zoom=zoom, prob=prob))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        elif name == "noise":
+            required_keys = ["prob", "mean", "std"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                mean = float(params["mean"])
+                std = float(params["std"])
+                transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=prob))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        elif name == "scale_intensity":
+            required_keys = ["prob", "min", "max"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                factors = (float(params["min"]), float(params["max"]))
+                transform_list.append(RandScaleIntensity(factors=factors, prob=prob))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        elif name == "elastic":
+            required_keys = ["prob", "min_el", "max_el", "space1", "space2"]
+            if all(key in params for key in required_keys):
+                prob = float(params["prob"])
+                magnitude_range = (float(params["min_el"]), float(params["max_el"]))
+                spacing = (float(params["space1"]), float(params["space2"]))
+                transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=prob))
+            else:
+                missing_keys = [key for key in required_keys if key not in params]
+                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+
+        else:
+            raise ValueError(f"Unknown transformation: '{name}'")
+
+    # The return must be outside of the loop to ensure all transformations are included
+    transform_list.append(ToTensor())
+    return transform_list
+
 
 
 def main():
