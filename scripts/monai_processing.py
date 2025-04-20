@@ -14,7 +14,7 @@ from monai.transforms import (
     RandAdjustContrast,
     RandFlip,
     RandRotate,
-    RandZoom,
+    Zoom,
     RandGaussianNoise,
     RandScaleIntensity,
     Rand2DElastic,
@@ -30,88 +30,67 @@ def build_composite_transformations(transformations):
     for transformation in transformations:
         name = transformation["transformation"]
         params = transformation.get("parameters", {})
-
         if name == "contrast":
-            required_keys = ["prob", "gamma"]
-            if all(key in params for key in required_keys):
-                prob = float(params["prob"])
+            if "gamma" in params:
                 gamma = float(params["gamma"])
-                transform_list.append(RandAdjustContrast(prob=prob, gamma=gamma))
+                transform_list.append(RandAdjustContrast(prob=1, gamma=gamma))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing 'prob' or 'gamma' parameter for transformation '{name}'")
 
         elif name == "flip":
-            required_keys = ["prob", "axis"]
-            if all(key in params for key in required_keys):
-                prob = float(params["prob"])
+            if "axis" in params:
                 axis = int(params["axis"])
-                transform_list.append(RandFlip(prob=prob, spatial_axis=axis))
+                transform_list.append(RandFlip(prob=1, spatial_axis=1))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing 'prob' or 'axis' parameter for transformation '{name}'")
 
         elif name == "rotate":
-            required_keys = ["prob", "range", "keep_size"]
+            required_keys = ["range", "keep_size"]
             if all(key in params for key in required_keys):
-                prob = float(params["prob"])
                 range_x = float(params["range"])
-                keep_size = params["keep_size"] in [True, "true", "True", 1]
-                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=keep_size))
+                keep_size = params["keep_size"] in [True, "true", "True", 1]  # Приведение к bool
+                transform_list.append(RandRotate(range_x=range_x, prob=1, keep_size=keep_size))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "zoom":
-            required_keys = ["prob", "zoom"]
-            if all(key in params for key in required_keys):
-                prob = float(params["prob"])
+            if "zoom" in params:
                 zoom = float(params["zoom"])
-                transform_list.append(RandZoom(zoom=zoom, prob=prob))
+                transform_list.append(Zoom(zoom=zoom))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
         elif name == "noise":
-            required_keys = ["prob", "mean", "std"]
+            required_keys = ["mean", "std"]
             if all(key in params for key in required_keys):
-                prob = float(params["prob"])
                 mean = float(params["mean"])
                 std = float(params["std"])
-                transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=prob))
+                transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=1))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "scale_intensity":
-            required_keys = ["prob", "min", "max"]
-            if all(key in params for key in required_keys):
-                prob = float(params["prob"])
+            if "min" in params and "max" in params:
                 factors = (float(params["min"]), float(params["max"]))
-                transform_list.append(RandScaleIntensity(factors=factors, prob=prob))
+                transform_list.append(RandScaleIntensity(factors=factors, prob=1))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing 'min', 'max' or 'prob' parameters for transformation '{name}'")
 
         elif name == "elastic":
-            required_keys = ["prob", "min_el", "max_el", "space1", "space2"]
+            required_keys = ["min_el", "max_el", "space1", "space2"]
             if all(key in params for key in required_keys):
-                prob = float(params["prob"])
                 magnitude_range = (float(params["min_el"]), float(params["max_el"]))
-                spacing = (float(params["space1"]), float(params["space2"]))
-                transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=prob))
+                spacing = (int(params["space1"]), int(params["space2"]))
+                transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=1))
             else:
-                missing_keys = [key for key in required_keys if key not in params]
-                raise ValueError(f"Missing {missing_keys} parameter(s) for transformation '{name}'")
+                raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
-        else:
-            raise ValueError(f"Unknown transformation: '{name}'")
 
-    # The return must be outside of the loop to ensure all transformations are included
+
+
     transform_list.append(ToTensor())
+
     return transform_list
-
-
 
 def main():
     if len(sys.argv) < 3:
