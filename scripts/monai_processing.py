@@ -117,7 +117,7 @@ def main():
         #ToTensor(),
     #])
     transforms = Compose(build_composite_transformations(transformations))
-
+    print(transforms)
     base_name = os.path.basename(input_path)
     name, ext = os.path.splitext(base_name)
     unique_id = uuid.uuid4().hex[:8]
