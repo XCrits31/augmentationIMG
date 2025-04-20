@@ -163,14 +163,21 @@
         <h4>Parameters for Adjust Contrast</h4>
         <label for="contrast-gamma">Gamma:</label>
         <input type="number" step="0.1" name="contrast[gamma]" id="contrast-gamma">
+        <label for="contrast-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="contrast[prob]" id="contrast-prob">
     </div>
-
 
     <div id="flip-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Flip</h4>
-        <label for="flip-axis">Axis:</label>
-        <input type="number" name="flip[axis]" id="flip-axis">
+        <label for="flip-axis">Flip Axis:</label>
+        <select name="flip[axis]" id="flip-axis">
+            <option value="1">Horizontal</option>
+            <option value="0">Vertical</option>
+        </select>
+        <label for="flip-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="flip[prob]" id="flip-prob">
     </div>
+
 
     <div id="rotate-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Rotate</h4>
@@ -178,12 +185,16 @@
         <input type="number" step="1" name="rotate[range]" id="rotate-range">
         <label for="rotate-keep">Keep Size:</label>
         <input type="checkbox" name="rotate[keep_size]" id="rotate-keep">
+        <label for="rotate-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="rotate[prob]" id="rotate-prob">
     </div>
 
     <div id="zoom-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Zoom</h4>
         <label for="zoom-zoom">Zoom:</label>
         <input type="number" step="0.1" name="zoom[zoom]" id="zoom-zoom">
+        <label for="zoom-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="zoom[prob]" id="zoom-prob">
     </div>
 
     <div id="noise-parameters" class="parameters" style="display: none;">
@@ -192,6 +203,8 @@
         <input type="number" step="0.1" name="noise[mean]" id="noise-mean">
         <label for="noise-std">Standard Deviation:</label>
         <input type="number" step="0.1" name="noise[std]" id="noise-std">
+        <label for="noise-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="noise[prob]" id="noise-prob">
     </div>
 
     <div id="scale_intensity-parameters" class="parameters" style="display: none;">
@@ -200,8 +213,9 @@
         <input type="number" step="0.1" name="scale_intensity[min]" id="scale-min">
         <label for="scale-max">Max Factor:</label>
         <input type="number" step="0.1" name="scale_intensity[max]" id="scale-max">
+        <label for="scale-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="scale_intensity[prob]" id="scale-prob">
     </div>
-
 
     <div id="elastic-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Elastic Transformation</h4>
@@ -213,7 +227,10 @@
         <input type="number" step="1" name="elastic[space1]" id="elastic-space1">
         <label for="elastic-space2">Spacing Dimension 2:</label>
         <input type="number" step="1" name="elastic[space2]" id="elastic-space2">
+        <label for="elastic-prob">Probability:</label>
+        <input type="number" step="0.1" min="0" max="1" name="elastic[prob]" id="elastic-prob">
     </div>
+
 
 
 
