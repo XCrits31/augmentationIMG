@@ -104,14 +104,18 @@
                 const transformName = checkbox.value;
                 const params = {};
 
+                // Получаем блок параметров для выбранной трансформации
                 const paramDiv = document.getElementById(transformName + "-parameters");
                 if (paramDiv) {
-                    const inputs = paramDiv.querySelectorAll("input");
+                    // Собираем все input и select внутри блока параметров
+                    const inputs = paramDiv.querySelectorAll("input, select");
                     inputs.forEach(input => {
                         if (input.type === "checkbox") {
-                            params[input.name.split('[')[1].replace(']', '')] = input.checked; // Для чекбоксов
+                            // Сохраняем значение для чекбоксов как true/false
+                            params[input.name.split('[')[1].replace(']', '')] = input.checked;
                         } else {
-                            params[input.name.split('[')[1].replace(']', '')] = input.value; // Для других input
+                            // Сохраняем значения для input и select в params
+                            params[input.name.split('[')[1].replace(']', '')] = input.value;
                         }
                     });
                 }
@@ -119,11 +123,14 @@
                 transformations.push({ transformation: transformName, parameters: params });
             });
 
+            // Записываем результаты в скрытое поле
             const hiddenField = document.getElementById("transformations-data");
             if (hiddenField) {
                 hiddenField.value = JSON.stringify(transformations);
+                console.log("Collected transformations:", transformations); // Для отладки
             }
         }
+
 
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.querySelector("form");
