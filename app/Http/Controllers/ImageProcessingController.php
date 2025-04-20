@@ -32,7 +32,7 @@ class ImageProcessingController extends Controller
         }
 
         $transformations = json_decode($request->input('transformations_data'), true);
-        dd($transformations);
+        //dd($transformations);
         $scriptPath = base_path('scripts/monai_processing.py');
 
         $pythonInterpreter = base_path('venv/bin/python3');
@@ -48,7 +48,7 @@ class ImageProcessingController extends Controller
         $process = new Process($args);
         $process->run();
         $output = json_decode($process->getOutput(), true);
-        dd($output);
+        //dd($output);
         $processedPath = $output['processed'];
         $out = asset('storage/processed/' . basename($processedPath));
         if (!$process->isSuccessful()) {

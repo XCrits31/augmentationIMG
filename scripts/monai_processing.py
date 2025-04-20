@@ -14,7 +14,7 @@ from monai.transforms import (
     RandAdjustContrast,
     RandFlip,
     RandRotate,
-    Zoom,
+    RandZoom,
     RandGaussianNoise,
     RandScaleIntensity,
     Rand2DElastic,
@@ -38,50 +38,58 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing 'prob' or 'gamma' parameter for transformation '{name}'")
 
         elif name == "flip":
-            if "axis" in params:
+            required_keys = ["axis", "prob"]
+            if all(key in params for key in required_keys):
                 axis = int(params["axis"])
-                transform_list.append(RandFlip(prob=1, spatial_axis=1))
+                prob = int(params["prob"])
+                transform_list.append(RandFlip(prob=prob, spatial_axis=axis))
             else:
                 raise ValueError(f"Missing 'prob' or 'axis' parameter for transformation '{name}'")
 
         elif name == "rotate":
-            required_keys = ["range", "keep_size"]
+            required_keys = ["range", "keep_size", "prob"]
             if all(key in params for key in required_keys):
                 range_x = float(params["range"])
+                prob = float(params["prob"])
                 keep_size = params["keep_size"] in [True, "true", "True", 1]  # Приведение к bool
-                transform_list.append(RandRotate(range_x=range_x, prob=1, keep_size=keep_size))
+                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=keep_size))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "zoom":
-            if "zoom" in params:
+            required_keys = ["zoom", "prob"]
+            if all(key in params for key in required_keys):
                 zoom = float(params["zoom"])
-                transform_list.append(Zoom(zoom=zoom))
+                transform_list.append(RandZoom(zoom=zoom, prob=prob))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
         elif name == "noise":
-            required_keys = ["mean", "std"]
+            required_keys = ["mean", "std", "prob"]
             if all(key in params for key in required_keys):
                 mean = float(params["mean"])
                 std = float(params["std"])
-                transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=1))
+                prob = float(params["prob"])
+                transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=prob))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "scale_intensity":
-            if "min" in params and "max" in params:
+            required_keys = ["min", "max", "prob"]
+            if all(key in params for key in required_keys):
                 factors = (float(params["min"]), float(params["max"]))
-                transform_list.append(RandScaleIntensity(factors=factors, prob=1))
+                prob = float(params["prob"])
+                transform_list.append(RandScaleIntensity(factors=factors, prob=prob))
             else:
                 raise ValueError(f"Missing 'min', 'max' or 'prob' parameters for transformation '{name}'")
 
         elif name == "elastic":
-            required_keys = ["min_el", "max_el", "space1", "space2"]
+            required_keys = ["min_el", "max_el", "space1", "space2", "prob"]
             if all(key in params for key in required_keys):
                 magnitude_range = (float(params["min_el"]), float(params["max_el"]))
                 spacing = (int(params["space1"]), int(params["space2"]))
-                transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=1))
+                prob = float(params["prob"])
+                transform_list.append(Rand2DElastic(magnitude_range=magnitude_range, spacing=spacing, prob=prob))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
     transform_list.append(ToTensor())
