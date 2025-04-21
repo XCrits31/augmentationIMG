@@ -18,6 +18,7 @@ class ProcessImageJob implements ShouldQueue
     protected $inputPath;
     protected $outputDir;
     protected $transformations;
+    protected $batchId;
 
     /**
      * Create a new job instance.
@@ -26,11 +27,12 @@ class ProcessImageJob implements ShouldQueue
      * @param string $outputDir
      * @param array $transformations
      */
-    public function __construct(string $inputPath, string $outputDir, array $transformations)
+    public function __construct(string $inputPath, string $outputDir, array $transformations, string $batchId = null)
     {
         $this->inputPath = $inputPath;
         $this->outputDir = $outputDir;
         $this->transformations = $transformations;
+        $this->batchId = $batchId;
     }
 
     /**

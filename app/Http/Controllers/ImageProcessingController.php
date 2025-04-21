@@ -42,7 +42,7 @@ class ImageProcessingController extends Controller
         $pythonInterpreter = base_path('venv/bin/python3');
         $repeatCount = (int)$request->input('repeat');
         $jobs = [];
-
+        $batchId = uniqid('batch_', true);
         // Создаем задания на обработку изображения
         for ($i = 0; $i < $repeatCount; $i++) {
             $jobs[] = new ProcessImageJob($inputPath, $outputDir, $transformations);
@@ -50,7 +50,7 @@ class ImageProcessingController extends Controller
 
         // Группируем задания в batch
         Bus::batch($jobs)
-            ->then(function () use ($originalName, $transformations) {
+            ->then(function () use ($batchId, $originalName, $transformations) {
                 // Отправляем уведомление через событие, когда все задачи выполнены
                 event(new ProcessImageCompleted([
                     'message' => 'All transformations completed!',
@@ -62,8 +62,8 @@ class ImageProcessingController extends Controller
                 // Обрабатываем ошибки
                 \Log::error('An error occurred in the batch: ' . $e->getMessage());
             })
-            ->finally(function () {
-                \Log::info('Batch processing finished.');
+            ->finally(function () use ($batchId) {
+                \Log::info("Batch $batchId processing finished.");
             })
             ->dispatch();
 
