@@ -17,8 +17,9 @@ class ImageProcessingController extends Controller
     public function processImage(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|max:10240', // максимум 10 МБ
+            'image' => 'required|image|max:10240',
             'transformations_data' => 'required|string',
+            'repeat' => 'required|integer|min:1',
         ]);
         $uploadedFile = $request->file('image');
         $originalName = $uploadedFile->getClientOriginalName();
@@ -36,7 +37,10 @@ class ImageProcessingController extends Controller
         $scriptPath = base_path('scripts/monai_processing.py');
 
         $pythonInterpreter = base_path('venv/bin/python3');
+        $repeatCount = (int)$request->input('repeat');
+        $results = [];
 
+        for ($i = 0; $i < $repeatCount; $i++) {
         $args = [
             $pythonInterpreter,
             $scriptPath,
@@ -67,7 +71,10 @@ class ImageProcessingController extends Controller
             'transformations' => json_encode($transformations),
             'output_image' => basename($processedPath),
         ]);
-        return view('image-result', compact('originalUrl', 'out', 'transformations'));
+            $results[] = $out;
+        }
+        dd($results);
+        return view('image-result', compact('originalUrl', 'results', 'transformations'));
     }
     public function showTransformations()
     {

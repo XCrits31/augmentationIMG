@@ -151,6 +151,12 @@
         <label for="image">image:</label>
         <input type="file" name="image" id="image" required>
     </div>
+
+    <div>
+        <label for="repeat">repeat</label>
+        <input type="number" name="repeat" id="repeat" min="1" value="1" required>
+    </div>
+
     <br>
 
     <h3>Transformations</h3>
