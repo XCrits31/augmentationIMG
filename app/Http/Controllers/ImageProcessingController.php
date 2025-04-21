@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProcessImageCompleted;
+use App\Jobs\ProcessImageJob;
 use App\Models\Transformation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -38,43 +41,35 @@ class ImageProcessingController extends Controller
 
         $pythonInterpreter = base_path('venv/bin/python3');
         $repeatCount = (int)$request->input('repeat');
-        $results = [];
+        $jobs = [];
 
+        // Создаем задания на обработку изображения
         for ($i = 0; $i < $repeatCount; $i++) {
-        $args = [
-            $pythonInterpreter,
-            $scriptPath,
-            $inputPath,
-            $outputDir,
-            json_encode($transformations),
-        ];
-
-        $process = new Process($args);
-        $process->run();
-        $output = json_decode($process->getOutput(), true);
-        //dd($output);
-        $processedPath = $output['processed'];
-        $out = asset('storage/processed/' . basename($processedPath));
-        if (!$process->isSuccessful()) {
-            return back()->with('error', $process->getErrorOutput());
+            $jobs[] = new ProcessImageJob($inputPath, $outputDir, $transformations);
         }
 
-        $output = json_decode($process->getOutput(), true);
-        if (isset($output['error'])) {
-            return back()->with('error', $output['error']);
-        }
+        // Группируем задания в batch
+        Bus::batch($jobs)
+            ->then(function () use ($originalName, $transformations) {
+                // Отправляем уведомление через событие, когда все задачи выполнены
+                event(new ProcessImageCompleted([
+                    'message' => 'All transformations completed!',
+                    'image_name' => $originalName,
+                    'transformations' => $transformations,
+                ]));
+            })
+            ->catch(function (\Throwable $e) {
+                // Обрабатываем ошибки
+                \Log::error('An error occurred in the batch: ' . $e->getMessage());
+            })
+            ->finally(function () {
+                \Log::info('Batch processing finished.');
+            })
+            ->dispatch();
 
-        $originalUrl = asset('storage/' . $storagePath);
-
-        $transformation = Transformation::create([
-            'image_name' => $originalName,
-            'transformations' => json_encode($transformations),
-            'output_image' => basename($processedPath),
-        ]);
-            $results[] = $out;
-        }
-        return view('image-result', compact('originalUrl', 'results', 'transformations'));
+        return response()->json(['message' => 'Batch job started for image processing!']);
     }
+
     public function showTransformations()
     {
         $transformations = Transformation::all();
