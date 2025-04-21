@@ -63,8 +63,8 @@ class ImageProcessingController extends Controller
                 // The batch has finished executing...
             })
             ->dispatch();
-        $batchId = $batch->id;
-        return response()->json(['message' => "$batchId"]);
+        $transformations = Transformation::all();
+        return view('transformations.index', compact('transformations'));
     }
 
     public function showTransformations()
