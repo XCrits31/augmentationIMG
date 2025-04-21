@@ -73,7 +73,6 @@ class ImageProcessingController extends Controller
         ]);
             $results[] = $out;
         }
-        dd($results);
         return view('image-result', compact('originalUrl', 'results', 'transformations'));
     }
     public function showTransformations()

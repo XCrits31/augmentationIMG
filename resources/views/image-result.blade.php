@@ -84,16 +84,23 @@
     </style>
 <h1>result</h1>
 
-<div class="image-row">
-    <div class="image-container">
-        <h2>original image</h2>
-        <img src="{{ $originalUrl }}" alt="original image">
+    <div class="image-row">
+        <div class="image-container">
+            <h2>original image</h2>
+            <img src="{{ $originalUrl }}" alt="original image">
+        </div>
     </div>
-    <div class="image-container">
-        <h2>image</h2>
-        <img src="{{ $out }}" alt="image">
+
+    <div class="image-row">
+        <h2>processed images</h2>
+        @foreach($results as $index => $result)
+            <div class="image-container">
+                <h3>Result {{ $index + 1 }}</h3>
+                <img src="{{ $result }}" alt="processed image {{ $index + 1 }}">
+            </div>
+        @endforeach
     </div>
-</div>
+
 
 <div class="transformations">
     <h2>transformations</h2>
