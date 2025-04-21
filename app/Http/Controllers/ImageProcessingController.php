@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Events\ProcessImageCompleted;
 use App\Jobs\ProcessImageJob;
 use App\Models\Transformation;
+use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use PHPUnit\Event\Code\Throwable;
+use Illuminate\Bus\Batchable;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -49,25 +52,19 @@ class ImageProcessingController extends Controller
         }
 
         // Группируем задания в batch
-        Bus::batch($jobs)
-            ->then(function () use ($batchId, $originalName, $transformations) {
-                // Отправляем уведомление через событие, когда все задачи выполнены
-                event(new ProcessImageCompleted([
-                    'message' => 'All transformations completed!',
-                    'image_name' => $originalName,
-                    'transformations' => $transformations,
-                ]));
+        $batch = Bus::batch($jobs)
+            ->then(function (Batch $batch) {
+                // All jobs completed successfully...
             })
-            ->catch(function (\Throwable $e) {
-                // Обрабатываем ошибки
-                \Log::error('An error occurred in the batch: ' . $e->getMessage());
+            ->catch(function (Batch $batch, Throwable $e) {
+                // First batch job failure detected...
             })
-            ->finally(function () use ($batchId) {
-                \Log::info("Batch $batchId processing finished.");
+            ->finally(function (Batch $batch) {
+                // The batch has finished executing...
             })
             ->dispatch();
-
-        return response()->json(['message' => 'Batch job started for image processing!']);
+        $batchId = $batch->id;
+        return response()->json(['message' => "$batchId"]);
     }
 
     public function showTransformations()
