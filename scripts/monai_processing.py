@@ -30,10 +30,13 @@ def build_composite_transformations(transformations):
     for transformation in transformations:
         name = transformation["transformation"]
         params = transformation.get("parameters", {})
+
         if name == "contrast":
-            if "gamma" in params:
+            required_keys = ["gamma", "prob"]
+            if all(key in params for key in required_keys):
                 gamma = float(params["gamma"])
-                transform_list.append(RandAdjustContrast(prob=1, gamma=gamma))
+                prob = float(params["prob"])
+                transform_list.append(RandAdjustContrast(prob=prob, gamma=gamma))
             else:
                 raise ValueError(f"Missing 'prob' or 'gamma' parameter for transformation '{name}'")
 
@@ -41,7 +44,7 @@ def build_composite_transformations(transformations):
             required_keys = ["axis", "prob"]
             if all(key in params for key in required_keys):
                 axis = int(params["axis"])
-                prob = int(params["prob"])
+                prob = float(params["prob"])
                 transform_list.append(RandFlip(prob=prob, spatial_axis=axis))
             else:
                 raise ValueError(f"Missing 'prob' or 'axis' parameter for transformation '{name}'")
@@ -60,6 +63,7 @@ def build_composite_transformations(transformations):
             required_keys = ["zoom", "prob"]
             if all(key in params for key in required_keys):
                 zoom = float(params["zoom"])
+                zoom = float(params["prob"])
                 transform_list.append(RandZoom(zoom=zoom, prob=prob))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
