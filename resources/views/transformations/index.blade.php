@@ -47,7 +47,7 @@
                         </td>
                         <td>{{ $transformation->created_at }}</td>
                         <td> <a href="{{ asset('storage/processed/' . $transformation->output_image) }}" download>
-                                Download
+                                <button type="submit" class="btn btn-danger">Download</button>
                             </a>
                         </td>
                         <td>
