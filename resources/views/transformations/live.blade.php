@@ -13,7 +13,10 @@
     <script>
         window.Echo.channel('image-processing')
             .listen('.batch.completed', (event) => {
-                const data = event.data;
+                // Laravel Echo по Pusher передаёт data как строку
+                const rawData = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+
+                const data = rawData.data;
 
                 if (!data || !data.image_path) {
                     console.warn('❗ Нет картинки в событии:', data);
