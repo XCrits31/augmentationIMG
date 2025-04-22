@@ -55,8 +55,6 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
-                'host' => 'xcrits31.su',
-                'port' => 6001,
             ],
         ],
 
