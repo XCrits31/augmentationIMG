@@ -71,5 +71,10 @@ class ProcessImageJob implements ShouldQueue
             'transformations' => json_encode($this->transformations),
             'output_image' => basename($processedPath),
         ]);
+
+        event(new ProcessImageCompleted([
+            'image_path' => $processedPath,
+            'message' => 'Обработка завершена: ' . basename($processedPath),
+        ]));
     }
 }

@@ -64,8 +64,7 @@ class ImageProcessingController extends Controller
             })
             ->dispatch();
 
-        $transformations = Transformation::all();
-        return view('transformations.index', compact('transformations'));
+        return redirect()->route('transformations.live');
     }
 
     public function showTransformations()
