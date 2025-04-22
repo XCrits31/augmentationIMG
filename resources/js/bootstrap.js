@@ -4,7 +4,14 @@ import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY, // Убедитесь, что ключ совпадает с PUSHER_APP_KEY из .env
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER, // Совпадает с PUSHER_APP_CLUSTER из .env
+    forceTLS: true,
+});
 
+/*
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
@@ -15,7 +22,7 @@ window.Echo = new Echo({
     forceTLS: true,
     encrypted: true,
     disableStats: true,
-});
+});*/
 
 window.Echo.connector.pusher.connection.bind('connected', () => {
     console.log('WebSocket connected!');

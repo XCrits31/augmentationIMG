@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_CONNECTION', 'null'),
+    'default' => env('BROADCAST_DRIVER', 'pusher'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +57,6 @@ return [
                 'useTLS' => true,
                 'host' => 'xcrits31.su',
                 'port' => 6001,
-                'scheme' => 'https', // если используешь Laravel WebSockets
             ],
         ],
 
