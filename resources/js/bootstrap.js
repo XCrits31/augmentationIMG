@@ -11,16 +11,35 @@ window.Echo = new Echo({
     forceTLS: true,
 });
 
-window.Echo.channel('image-processing')
-    .listen('.batch.completed', (event) => {
-        console.log('Batch Completed (from JS):', event);
+    window.Echo.channel('image-processing')
+        .listen('.batch.completed', (event) => {
+            console.log('🔥 Новое изображение:', event);
 
-        const box = document.createElement('div');
-        box.className = 'alert alert-success mt-4';
-        box.innerText = event.data.message || 'All transformations completed!';
-        document.querySelector('.container')?.prepend(box);
-        setTimeout(() => box.remove(), 5000);
-    });
+            const col = document.createElement('div');
+            col.className = 'col';
+
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const img = document.createElement('img');
+            img.src = event.image_path;
+            img.className = 'card-img-top';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const text = document.createElement('p');
+            text.className = 'card-text';
+            text.innerText = event.message;
+
+            cardBody.appendChild(text);
+            card.appendChild(img);
+            card.appendChild(cardBody);
+            col.appendChild(card);
+
+            document.getElementById('results').prepend(col);
+        });
+
 window.Echo.connector.pusher.connection.bind('connected', () => {
     console.log('WebSocket connected!');
 });
