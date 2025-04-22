@@ -4,13 +4,10 @@ import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 
-window.PUSHER_APP_KEY = "{{ env('PUSHER_APP_KEY') }}";
-window.PUSHER_APP_CLUSTER = "{{ env('PUSHER_APP_CLUSTER') }}";
-
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: window.PUSHER_APP_KEY,
-    cluster: window.PUSHER_APP_CLUSTER,
+    key: '2b5d64a15fe154fa385d',
+    cluster: eu,
     forceTLS: true,
 });
 
