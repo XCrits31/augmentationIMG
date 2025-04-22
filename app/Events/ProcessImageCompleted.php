@@ -29,7 +29,7 @@ class ProcessImageCompleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('image-processing');
+        return ['image-processing'];
     }
 
     public function broadcastAs()
