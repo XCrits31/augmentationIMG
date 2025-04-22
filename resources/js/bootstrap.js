@@ -7,7 +7,7 @@ window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: '2b5d64a15fe154fa385d',
-    cluster: eu,
+    cluster: 'eu',
     forceTLS: true,
 });
 
