@@ -73,5 +73,28 @@ class ImageProcessingController extends Controller
 
         return view('transformations.index', compact('transformations'));
     }
+    public function deleteTransformation($id)
+    {
+        $transformation = Transformation::find($id); // Locate the record by its ID
+        if ($transformation) {
+            // Delete the images from storage
+            $originalImagePath = storage_path('app/public/uploads/' . $transformation->image_name);
+            $processedImagePath = storage_path('app/public/processed/' . $transformation->output_image);
+
+            if (file_exists($originalImagePath)) {
+                unlink($originalImagePath);
+            }
+
+            if (file_exists($processedImagePath)) {
+                unlink($processedImagePath);
+            }
+
+            // Delete the record
+            $transformation->delete();
+        }
+
+        return redirect()->route('transformations.index')->with('success', 'Transformation deleted successfully.');
+    }
+
 
 }

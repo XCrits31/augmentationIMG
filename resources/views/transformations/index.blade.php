@@ -17,6 +17,7 @@
                     <th>image</th>
                     <th>Created at</th>
                     <th>Download</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,10 +50,23 @@
                                 Download
                             </a>
                         </td>
+                        <td>
+                            <form action="{{ route('transformations.delete', $transformation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this transformation?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         @endif
     </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
 @endsection
