@@ -13,11 +13,11 @@ window.Echo = new Echo({
 
 window.Echo.channel('image-processing')
     .listen('.batch.completed', (event) => {
-        console.log('Batch Completed (from JS):', event);
+        console.log('🔔 Batch Completed (from bootstrap.js):', event);
 
         const box = document.createElement('div');
         box.className = 'alert alert-success mt-4';
-        box.innerText = event.data.message || 'All transformations completed!';
+        box.innerText = event.message || 'All transformations completed!';
         document.querySelector('.container')?.prepend(box);
         setTimeout(() => box.remove(), 5000);
     });
