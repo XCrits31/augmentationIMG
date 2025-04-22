@@ -6,8 +6,8 @@ window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    key: '2b5d64a15fe154fa385d',
+    cluster: 'eu',
     wsHost: window.location.hostname,
     wsPort: 6001,
     wssPort: 6001,
