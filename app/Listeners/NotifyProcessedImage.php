@@ -16,7 +16,7 @@ class NotifyProcessedImage implements ShouldQueue
         $data = $event->data;
 
         // Логика обработки события, например, отправка уведомления
-        \Log::info('Process completed for image:', $data);
+        \Log::info('Got message: ' . $event->message);
 
         // Или отправка сообщения, например, пользователю
     }
