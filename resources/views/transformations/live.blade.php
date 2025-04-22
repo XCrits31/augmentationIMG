@@ -11,35 +11,30 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            window.Echo.channel('image-processing')
-                .listen('.batch.completed', (event) => {
-                    console.log('🔥 Новое изображение:', event);
+        window.Echo.channel('image-processing')
+            .listen('.batch.completed', (event) => {
+                console.log('🔥 Event received:', event);
 
-                    const col = document.createElement('div');
-                    col.className = 'col';
+                const col = document.createElement('div');
+                col.className = 'col';
 
-                    const card = document.createElement('div');
-                    card.className = 'card';
+                const card = document.createElement('div');
+                card.className = 'card';
 
-                    const img = document.createElement('img');
-                    img.src = event.image_path;
-                    img.className = 'card-img-top';
+                const img = document.createElement('img');
+                img.src = event.image_path;
+                img.alt = 'Обработанное изображение';
+                img.className = 'card-img-top';
 
-                    const cardBody = document.createElement('div');
-                    cardBody.className = 'card-body';
+                const body = document.createElement('div');
+                body.className = 'card-body';
+                body.innerText = event.message;
 
-                    const text = document.createElement('p');
-                    text.className = 'card-text';
-                    text.innerText = event.message;
+                card.appendChild(img);
+                card.appendChild(body);
+                col.appendChild(card);
 
-                    cardBody.appendChild(text);
-                    card.appendChild(img);
-                    card.appendChild(cardBody);
-                    col.appendChild(card);
-
-                    document.getElementById('results').prepend(col);
-                });
-        });
+                document.getElementById('results')?.prepend(col);
+            });
     </script>
 @endpush
