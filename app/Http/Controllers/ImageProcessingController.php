@@ -51,18 +51,7 @@ class ImageProcessingController extends Controller
             $jobs[] = new ProcessImageJob($inputPath, $outputDir, $transformations);
         }
 
-        Bus::batch($jobs)
-            ->then(function () {})
-            ->catch(function (\Throwable $e) {
-                \Log::error('An error occurred in the batch: ' . $e->getMessage());
-            })
-            ->finally(function () use ($batchId)  {
-                event(new ProcessImageCompleted([
-                    'message' => 'All transformations completed!',
-                    'batchId' => $batchId,
-                ]));
-            })
-            ->dispatch();
+        Bus::batch($jobs)->dispatch();
 
         return redirect()->route('transformations.live');
     }

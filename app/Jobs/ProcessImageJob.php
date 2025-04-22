@@ -72,10 +72,8 @@ class ProcessImageJob implements ShouldQueue
             'output_image' => basename($processedPath),
         ]);
         $processedPath = asset('app/public/processed/' . basename($processedPath));
-        event(new ProcessImageCompleted([
-            'image_path' => $processedPath,
-            'message' => 'Обработка завершена: ' . basename($processedPath),
-        ]));
+        $message = 'Обработка завершена: ' . basename($processedPath);
+        event(new ProcessImageCompleted($processedPath, $message));;
 
     }
 }

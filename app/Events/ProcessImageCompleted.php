@@ -17,10 +17,13 @@ class ProcessImageCompleted implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public $data;
-    public function __construct(array $data)
+    public $image_path;
+    public $message;
+
+    public function __construct(string $image_path, string $message)
     {
-        $this->data = $data;
+        $this->image_path = $image_path;
+        $this->message = $message;
     }
 
     /**
@@ -36,5 +39,11 @@ class ProcessImageCompleted implements ShouldBroadcast
     {
         return 'batch.completed';
     }
-
+    public function broadcastWith()
+    {
+        return [
+            'image_path' => $this->image_path,
+            'message' => $this->message,
+        ];
+    }
 }
