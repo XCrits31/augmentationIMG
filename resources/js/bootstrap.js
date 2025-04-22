@@ -10,7 +10,7 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
 });
-/*
+
 window.Echo.channel('image-processing')
     .listen('.batch.completed', (event) => {
         console.log('Batch Completed (from JS):', event);
@@ -20,7 +20,7 @@ window.Echo.channel('image-processing')
         box.innerText = event.data.message || 'All transformations completed!';
         document.querySelector('.container')?.prepend(box);
         setTimeout(() => box.remove(), 5000);
-    });*/
+    });
 window.Echo.connector.pusher.connection.bind('connected', () => {
     console.log('WebSocket connected!');
 });
