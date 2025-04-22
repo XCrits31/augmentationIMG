@@ -72,9 +72,11 @@ class ProcessImageJob implements ShouldQueue
             'output_image' => basename($processedPath),
         ]);
         $processedPath = asset('app/public/processed/' . basename($processedPath));
+        sleep(18); // 2 секунды — чтобы дать время JS подключиться
         event(new ProcessImageCompleted([
             'image_path' => $processedPath,
             'message' => 'Обработка завершена: ' . basename($processedPath),
         ]));
+
     }
 }
