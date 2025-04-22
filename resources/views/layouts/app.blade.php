@@ -35,8 +35,17 @@
     // События
     window.Echo.channel('image-processing')
         .listen('.batch.completed', (event) => {
-            console.log('Batch Completed:', event.message);
-            alert(event.message);
+            console.log('Batch Completed:', event);
+
+            // Создание простого уведомления на странице
+            const notificationBox = document.createElement('div');
+            notificationBox.className = 'alert alert-success mt-4';
+            notificationBox.innerText = event.data.message || 'All transformations completed!';
+
+            document.querySelector('.container').prepend(notificationBox);
+
+            // Добавление автоудаления уведомления
+            setTimeout(() => notificationBox.remove(), 5000);
         });
 </script>
 </body>
