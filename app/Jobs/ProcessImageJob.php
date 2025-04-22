@@ -71,14 +71,5 @@ class ProcessImageJob implements ShouldQueue
             'transformations' => json_encode($this->transformations),
             'output_image' => basename($processedPath),
         ]);
-
-        $data = [
-            "message" => "All transformations completed!",
-            'image_name' => basename($this->inputPath),
-            'output_image' => basename($processedPath),
-            'transformations' => $this->transformations,
-        ];
-
-        event(new ProcessImageCompleted($data));
     }
 }
