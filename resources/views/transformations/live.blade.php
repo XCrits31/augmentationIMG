@@ -1,45 +1,56 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pusher Image Test</title>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <style>
+        .image-card {
+            margin: 1em;
+            padding: 1em;
+            border: 1px solid #ccc;
+            max-width: 300px;
+        }
+        .image-card img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Pusher Image Feed</h1>
+<div id="image-feed" style="display: flex; flex-wrap: wrap;"></div>
 
-@section('title', 'Live Transformations')
+<script>
+    Pusher.logToConsole = true;
 
-@section('content')
-    <h1>Live Results</h1>
-    <div id="results" class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-        <!-- Куда добавляются карточки -->
-    </div>
-@endsection
+    const pusher = new Pusher('2b5d64a15fe154fa385d', {
+        cluster: 'eu'
+    });
 
-@push('scripts')
-    <script>
-        window.Echo.channel('image-processing')
-            .listen('.batch.completed', (event) => {
-                if (!event.image_path) {
-                    console.warn('❗ Нет картинки в событии:', event);
-                    return;
-                }
+    const channel = pusher.subscribe('image-processing');
 
-                console.log('🖼 Получено изображение:', event.image_path);
+    channel.bind('batch.completed', function(data) {
+        console.log('🎯 Event received:', data);
 
-                const col = document.createElement('div');
-                col.className = 'col';
+        // Если сервер отправляет строку JSON, парсим
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
 
-                const card = document.createElement('div');
-                card.className = 'card';
+        const card = document.createElement('div');
+        card.className = 'image-card';
 
-                const img = document.createElement('img');
-                img.src = event.image_path;
-                img.alt = 'Обработанное изображение';
-                img.className = 'card-img-top';
+        const img = document.createElement('img');
+        img.src = data.image_path || '';
+        img.alt = 'Image';
 
-                const body = document.createElement('div');
-                body.className = 'card-body';
-                body.innerText = event.message;
+        const p = document.createElement('p');
+        p.innerText = data.message || 'Без сообщения';
 
-                card.appendChild(img);
-                card.appendChild(body);
-                col.appendChild(card);
-
-                document.getElementById('results')?.prepend(col);
-            });
-    </script>
-@endpush
+        card.appendChild(img);
+        card.appendChild(p);
+        document.getElementById('image-feed').prepend(card);
+    });
+</script>
+</body>
+</html>
