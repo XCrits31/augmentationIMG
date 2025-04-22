@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Laravel')</title>
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -19,18 +20,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.2.0/pusher.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.4/echo.iife.js"></script>
 <script>
-    window.PUSHER_APP_KEY = "{{ env('PUSHER_APP_KEY') }}";
-    window.PUSHER_APP_CLUSTER = "{{ env('PUSHER_APP_CLUSTER') }}";
-
-    window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: window.PUSHER_APP_KEY,
-        cluster: window.PUSHER_APP_CLUSTER,
-        forceTLS: true,
-    });
 
     // События
     window.Echo.channel('image-processing')
