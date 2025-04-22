@@ -71,7 +71,7 @@ class ProcessImageJob implements ShouldQueue
             'transformations' => json_encode($this->transformations),
             'output_image' => basename($processedPath),
         ]);
-        $processedPath = asset('app/public/processed/' . basename($processedPath));
+        $processedPath = asset('storage/processed/' . basename($processedPath));
         $message = 'Обработка завершена: ' . basename($processedPath);
         event(new ProcessImageCompleted($processedPath, $message));;
 

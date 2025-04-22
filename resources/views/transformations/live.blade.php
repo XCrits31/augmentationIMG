@@ -30,7 +30,7 @@
     const channel = pusher.subscribe('image-processing');
 
     channel.bind('batch.completed', function(data) {
-        console.log('🎯 Event received:', data);
+        console.log('Event received:', data);
 
         // Если сервер отправляет строку JSON, парсим
         if (typeof data === 'string') {
@@ -41,7 +41,7 @@
         card.className = 'image-card';
 
         const img = document.createElement('img');
-        img.src = data.image_path || '';
+        img.src = data.image_path;
         img.alt = 'Image';
 
         const p = document.createElement('p');
