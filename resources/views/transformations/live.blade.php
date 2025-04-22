@@ -13,7 +13,14 @@
     <script>
         window.Echo.channel('image-processing')
             .listen('.batch.completed', (event) => {
-                console.log('🔥 Event received:', event);
+                const data = event.data;
+
+                if (!data || !data.image_path) {
+                    console.warn('❗ Нет картинки в событии:', data);
+                    return;
+                }
+
+                console.log('🖼 Получено изображение:', data.image_path);
 
                 const col = document.createElement('div');
                 col.className = 'col';
@@ -22,13 +29,13 @@
                 card.className = 'card';
 
                 const img = document.createElement('img');
-                img.src = event.image_path;
+                img.src = data.image_path;
                 img.alt = 'Обработанное изображение';
                 img.className = 'card-img-top';
 
                 const body = document.createElement('div');
                 body.className = 'card-body';
-                body.innerText = event.message;
+                body.innerText = data.message;
 
                 card.appendChild(img);
                 card.appendChild(body);
