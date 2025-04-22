@@ -20,23 +20,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-<script>
-
-    // События
-    window.Echo.channel('image-processing')
-        .listen('.batch.completed', (event) => {
-            console.log('Batch Completed:', event);
-
-            // Создание простого уведомления на странице
-            const notificationBox = document.createElement('div');
-            notificationBox.className = 'alert alert-success mt-4';
-            notificationBox.innerText = event.data.message || 'All transformations completed!';
-
-            document.querySelector('.container').prepend(notificationBox);
-
-            // Добавление автоудаления уведомления
-            setTimeout(() => notificationBox.remove(), 5000);
-        });
-</script>
 </body>
 </html>
