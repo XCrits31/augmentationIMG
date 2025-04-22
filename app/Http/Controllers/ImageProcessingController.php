@@ -75,9 +75,8 @@ class ImageProcessingController extends Controller
     }
     public function deleteTransformation($id)
     {
-        $transformation = Transformation::find($id); // Locate the record by its ID
+        $transformation = Transformation::find($id);
         if ($transformation) {
-            // Delete the images from storage
             $originalImagePath = storage_path('app/public/uploads/' . $transformation->image_name);
             $processedImagePath = storage_path('app/public/processed/' . $transformation->output_image);
 
@@ -89,12 +88,31 @@ class ImageProcessingController extends Controller
                 unlink($processedImagePath);
             }
 
-            // Delete the record
             $transformation->delete();
         }
 
         return redirect()->route('transformations.index')->with('success', 'Transformation deleted successfully.');
     }
+    public function deleteAllTransformations()
+    {
+        $transformations = Transformation::all();
 
+        foreach ($transformations as $transformation) {
+            $originalImagePath = storage_path('app/public/uploads/' . $transformation->image_name);
+            $processedImagePath = storage_path('app/public/processed/' . $transformation->output_image);
+
+            if (file_exists($originalImagePath)) {
+                unlink($originalImagePath);
+            }
+
+            if (file_exists($processedImagePath)) {
+                unlink($processedImagePath);
+            }
+        }
+
+        Transformation::truncate();
+
+        return redirect()->route('transformations.index')->with('success', 'All transformations deleted successfully.');
+    }
 
 }

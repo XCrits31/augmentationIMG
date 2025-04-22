@@ -7,6 +7,14 @@
         @if($transformations->isEmpty())
             <p>no transformations yet</p>
         @else
+            <div class="mb-3">
+                <form action="{{ route('transformations.deleteAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all transformations?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete All</button>
+                </form>
+            </div>
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -63,10 +71,5 @@
             </table>
         @endif
     </div>
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
 @endsection
