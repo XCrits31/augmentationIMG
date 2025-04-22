@@ -12,6 +12,8 @@ export default defineConfig({
         host: '0.0.0.0',
         hmr: {
             host: 'xcrits31.su',
+            protocol: 'wss',
+            port: 5173,
         },
         watch: {
             ignored: ['**/node_modules/**', '**/vendor/**', '**/venv/**']
