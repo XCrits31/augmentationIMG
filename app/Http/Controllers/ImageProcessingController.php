@@ -52,17 +52,23 @@ class ImageProcessingController extends Controller
         }
 
         // Группируем задания в batch
-        $batch = Bus::batch($jobs)
-            ->then(function (Batch $batch) {
-                // All jobs completed successfully...
+        Bus::batch($jobs)
+            ->then(function () use ($batchId, $originalName, $transformations) {
+                event(new ProcessImageCompleted([
+                    'message' => 'All transformations completed!',
+                    'image_name' => $originalName,
+                    'transformations' => $transformations,
+                ]));
             })
-            ->catch(function (Batch $batch, Throwable $e) {
-                // First batch job failure detected...
+            ->catch(function (\Throwable $e) {
+                // Обрабатываем ошибки
+                \Log::error('An error occurred in the batch: ' . $e->getMessage());
             })
-            ->finally(function (Batch $batch) {
-                // The batch has finished executing...
+            ->finally(function () use ($batchId) {
+                \Log::info("Batch $batchId processing finished.");
             })
             ->dispatch();
+
         $transformations = Transformation::all();
         return view('transformations.index', compact('transformations'));
     }

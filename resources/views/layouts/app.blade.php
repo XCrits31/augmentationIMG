@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Laravel')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,6 +24,20 @@
 <script>
     window.PUSHER_APP_KEY = "{{ env('PUSHER_APP_KEY') }}";
     window.PUSHER_APP_CLUSTER = "{{ env('PUSHER_APP_CLUSTER') }}";
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: window.PUSHER_APP_KEY,
+        cluster: window.PUSHER_APP_CLUSTER,
+        forceTLS: true,
+    });
+
+    // События
+    window.Echo.channel('image-processing')
+        .listen('.batch.completed', (event) => {
+            console.log('Batch Completed:', event.message);
+            alert(event.message);
+        });
 </script>
 </body>
 </html>
