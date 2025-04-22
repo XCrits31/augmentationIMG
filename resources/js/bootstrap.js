@@ -17,6 +17,9 @@ window.Echo = new Echo({
     disableStats: true,
 });
 
+window.Echo.connector.pusher.connection.bind('connected', () => {
+    console.log('WebSocket connected!');
+});
 
 window.axios = axios;
 
