@@ -13,17 +13,12 @@
     <script>
         window.Echo.channel('image-processing')
             .listen('.batch.completed', (event) => {
-                // Laravel Echo по Pusher передаёт data как строку
-                const rawData = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-
-                const data = rawData.data;
-
-                if (!data || !data.image_path) {
-                    console.warn('❗ Нет картинки в событии:', data);
+                if (!event.image_path) {
+                    console.warn('❗ Нет картинки в событии:', event);
                     return;
                 }
 
-                console.log('🖼 Получено изображение:', data.image_path);
+                console.log('🖼 Получено изображение:', event.image_path);
 
                 const col = document.createElement('div');
                 col.className = 'col';
@@ -32,13 +27,13 @@
                 card.className = 'card';
 
                 const img = document.createElement('img');
-                img.src = data.image_path;
+                img.src = event.image_path;
                 img.alt = 'Обработанное изображение';
                 img.className = 'card-img-top';
 
                 const body = document.createElement('div');
                 body.className = 'card-body';
-                body.innerText = data.message;
+                body.innerText = event.message;
 
                 card.appendChild(img);
                 card.appendChild(body);
