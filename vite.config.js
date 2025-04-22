@@ -9,6 +9,10 @@ export default defineConfig({
         }),
     ],
     server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'xcrits31.su',
+        },
         watch: {
             ignored: ['**/node_modules/**', '**/vendor/**', '**/venv/**']
         }
