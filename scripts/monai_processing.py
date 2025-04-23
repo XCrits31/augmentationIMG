@@ -63,7 +63,7 @@ def build_composite_transformations(transformations):
         elif name == "zoom":
             required_keys = ["zoom_min", "zoom_max", "prob"]
             if all(key in params for key in required_keys):
-                zoom = = random.uniform(float(params['zoom_min']), float(params['zoom_max']))
+                zoom = random.uniform(float(params['zoom_min']), float(params['zoom_max']))
                 prob = float(params["prob"])
                 transform_list.append(RandZoom(zoom=zoom, prob=prob))
             else:
