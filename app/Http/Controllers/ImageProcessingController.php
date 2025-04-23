@@ -48,7 +48,7 @@ class ImageProcessingController extends Controller
         $batchId = uniqid('batch_', true);
         // Создаем задания на обработку изображения
         for ($i = 0; $i < $repeatCount; $i++) {
-            ProcessImageJob::dispatch($inputPath, $outputDir, $transformations);
+            ProcessImageJob::dispatch($inputPath, $outputDir, $transformations)->delay(now()->addSeconds($i * 3));;
         }
 
         return redirect()->route('transformations.live');
