@@ -5,6 +5,7 @@ import os
 import numpy as np
 import torch
 import uuid
+import random
 from monai.data import MetaTensor
 from PIL import Image
 from monai.transforms import (
@@ -32,9 +33,9 @@ def build_composite_transformations(transformations):
         params = transformation.get("parameters", {})
 
         if name == "contrast":
-            required_keys = ["gamma", "prob"]
+            required_keys = ["gamma_min", "gamma_max", "prob"]
             if all(key in params for key in required_keys):
-                gamma = float(params["gamma"])
+                gamma = random.uniform(float(params['gamma_min']), float(params['gamma_max']))
                 prob = float(params["prob"])
                 transform_list.append(RandAdjustContrast(prob=prob, gamma=gamma))
             else:
@@ -60,19 +61,19 @@ def build_composite_transformations(transformations):
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
         elif name == "zoom":
-            required_keys = ["zoom", "prob"]
+            required_keys = ["zoom_min", "zoom_max", "prob"]
             if all(key in params for key in required_keys):
-                zoom = float(params["zoom"])
-                zoom = float(params["prob"])
+                zoom = = random.uniform(float(params['zoom_min']), float(params['zoom_max']))
+                prob = float(params["prob"])
                 transform_list.append(RandZoom(zoom=zoom, prob=prob))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
         elif name == "noise":
-            required_keys = ["mean", "std", "prob"]
+            required_keys = ["mean_min", "mean_max", "std_min", "std_max", "prob"]
             if all(key in params for key in required_keys):
-                mean = float(params["mean"])
-                std = float(params["std"])
+                mean = random.uniform(float(params['mean_min']), float(params['mean_max']))
+                std = random.uniform(float(params['std_min']), float(params['std_max']))
                 prob = float(params["prob"])
                 transform_list.append(RandGaussianNoise(mean=mean, std=std, prob=prob))
             else:

@@ -174,8 +174,11 @@
 
     <div id="contrast-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Adjust Contrast</h4>
-        <label for="contrast-gamma">Gamma:</label>
-        <input type="number" step="0.1" name="contrast[gamma]" id="contrast-gamma">
+        <label>Gamma:</label>
+        <div>
+            <input type="number" step="0.1" name="contrast[gamma_min]" placeholder="Min gamma">
+            <input type="number" step="0.1" name="contrast[gamma_max]" placeholder="Max gamma">
+        </div>
         <label for="contrast-prob">Probability:</label>
         <input type="number" step="0.1" min="0" max="1" name="contrast[prob]" id="contrast-prob">
     </div>
@@ -204,18 +207,27 @@
 
     <div id="zoom-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Zoom</h4>
-        <label for="zoom-zoom">Zoom:</label>
-        <input type="number" step="0.1" name="zoom[zoom]" id="zoom-zoom">
+        <label>Zoom:</label>
+        <div>
+            <input type="number" step="0.1" name="zoom[zoom_min]" placeholder="Min zoom">
+            <input type="number" step="0.1" name="zoom[zoom_max]" placeholder="Max zoom">
+        </div>
         <label for="zoom-prob">Probability:</label>
         <input type="number" step="0.1" min="0" max="1" name="zoom[prob]" id="zoom-prob">
     </div>
 
     <div id="noise-parameters" class="parameters" style="display: none;">
         <h4>Parameters for Gaussian Noise</h4>
-        <label for="noise-mean">Mean:</label>
-        <input type="number" step="0.1" name="noise[mean]" id="noise-mean">
-        <label for="noise-std">Standard Deviation:</label>
-        <input type="number" step="0.1" name="noise[std]" id="noise-std">
+        <label>Mean:</label>
+        <div>
+            <input type="number" step="0.1" name="noise[mean_min]" placeholder="Min mean">
+            <input type="number" step="0.1" name="noise[mean_max]" placeholder="Max mean">
+        </div>
+        <label>Std:</label>
+        <div>
+            <input type="number" step="0.1" name="noise[std_min]" placeholder="Min std">
+            <input type="number" step="0.1" name="noise[std_max]" placeholder="Max std">
+        </div>
         <label for="noise-prob">Probability:</label>
         <input type="number" step="0.1" min="0" max="1" name="noise[prob]" id="noise-prob">
     </div>
