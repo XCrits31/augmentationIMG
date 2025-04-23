@@ -149,7 +149,7 @@
     @csrf
     <div>
         <label for="image">image:</label>
-        <input type="file" name="image" id="image" required>
+        <input type="file" name="image" id="image" required class="form-control">
     </div>
 
     <div>

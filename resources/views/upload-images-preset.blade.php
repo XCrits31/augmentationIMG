@@ -4,17 +4,17 @@
 
 @section('content')
     <div class="container mt-5">
-        <h2>Загрузка изображений с готовыми трансформациями</h2>
+        <h2>Load images</h2>
 
         <form action="{{ route('images.process.multiple') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
-                <label for="images">Выберите изображения:</label>
+                <label for="images">Images:</label>
                 <input type="file" name="images[]" id="images" multiple required class="form-control">
             </div>
 
-            <h4>Выбранные трансформации:</h4>
+            <h4>Transformations</h4>
             @php
                 $decoded = json_decode($presetTransformations, true);
             @endphp
@@ -30,7 +30,7 @@
 
             <input type="hidden" name="transformations_data" value="{{ $presetTransformations }}">
 
-            <button type="submit" class="btn btn-primary">Отправить</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 @endsection
