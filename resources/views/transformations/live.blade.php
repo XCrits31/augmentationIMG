@@ -15,8 +15,16 @@
             max-width: 100%;
         }
     </style>
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/upload-image') }}">Main Creation</a>
+        <a class="navbar-brand" href="{{ url('/transformations') }}">List</a>
+    </div>
+</nav>
 <h1>Pusher Image Feed</h1>
 <div id="image-feed" style="display: flex; flex-wrap: wrap;"></div>
 
@@ -52,5 +60,6 @@
         document.getElementById('image-feed').prepend(card);
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
