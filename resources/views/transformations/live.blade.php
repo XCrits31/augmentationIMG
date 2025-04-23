@@ -9,22 +9,18 @@
             margin: 1em;
             padding: 1em;
             border: 1px solid #ccc;
-            max-width: 300px;
-        }
-        .image-card img {
-            max-width: 100%;
-        }
-        .card {
             width: 100%;
             max-width: 300px;
             word-wrap: break-word;
             overflow: hidden;
         }
-
-        .card-body {
+        .image-card img {
+            max-width: 100%;
+        }
+        .image-card-body {
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal; /* или 'nowrap' если хочешь в одну строку */
+            white-space: normal; 
             word-break: break-word;
         }
     </style>
