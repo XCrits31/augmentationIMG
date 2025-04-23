@@ -26,6 +26,7 @@
                     <th>Created at</th>
                     <th>Download</th>
                     <th>Delete</th>
+                    <th>Use Again</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,12 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="GET" action="{{ route('images.upload.withPreset') }}">
+                                <input type="hidden" name="transformations" value="{{ $transformation->transformations }}">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">use</button>
                             </form>
                         </td>
                     </tr>
