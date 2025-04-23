@@ -10,7 +10,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/upload-image') }}">Main Creation</a>
+        <a class="navbar-brand" href="{{ url('/upload-image') }}">Single photo</a>
+        <a class="navbar-brand" href="{{ url('/upload-images') }}">Main Creation</a>
         <a class="navbar-brand" href="{{ url('/transformations') }}">List</a>
     </div>
 </nav>

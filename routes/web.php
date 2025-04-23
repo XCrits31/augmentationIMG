@@ -2,6 +2,7 @@
 
 use App\Events\ProcessImageCompleted;
 use App\Http\Controllers\BotController;
+use App\Http\Controllers\ImagesProcessingController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -16,4 +17,5 @@ Route::delete('/transformations', [ImageProcessingController::class, 'deleteAllT
 Route::get('/transformations/live', function () {
     return view('transformations.live');
 })->name('transformations.live');
-
+Route::get('/upload-images', [ImagesProcessingController::class, 'showUploadForm'])->name('images.upload.form');
+Route::post('/process-multiple-images', [ImagesProcessingController::class, 'processMultipleImages'])->name('images.process.multiple');
