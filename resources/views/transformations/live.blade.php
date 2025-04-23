@@ -73,10 +73,8 @@
         });
         const btn = document.createElement('a');
         btn.href = `/upload-with-preset?transformations=${encodeURIComponent(JSON.stringify(data.transformations))}`;
-        btn.innerText = '🔁 Повторить';
+        btn.innerText = 'use again';
         btn.className = 'btn btn-sm btn-outline-primary mt-2';
-
-        card.appendChild(btn);
         card.appendChild(list);
         card.appendChild(img);
         card.appendChild(p);
