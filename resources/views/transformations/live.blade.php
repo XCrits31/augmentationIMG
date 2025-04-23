@@ -25,7 +25,7 @@
         <a class="navbar-brand" href="{{ url('/transformations') }}">List</a>
     </div>
 </nav>
-<h1>Pusher Image Feed</h1>
+<h3>Pusher Image Feed</h3>
 <div id="image-feed" style="display: flex; flex-wrap: wrap;"></div>
 
 <script>

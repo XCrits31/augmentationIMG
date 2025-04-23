@@ -11,16 +11,6 @@ window.Echo = new Echo({
     forceTLS: true,
 });
 
-window.Echo.channel('image-processing')
-    .listen('.batch.completed', (event) => {
-        console.log('🔔 Batch Completed (from bootstrap.js):', event);
-
-        const box = document.createElement('div');
-        box.className = 'alert alert-success mt-4';
-        box.innerText = event.message || 'All transformations completed!';
-        document.querySelector('.container')?.prepend(box);
-        setTimeout(() => box.remove(), 5000);
-    });
 window.Echo.connector.pusher.connection.bind('connected', () => {
     console.log('WebSocket connected!');
 });
