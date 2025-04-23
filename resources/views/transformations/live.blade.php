@@ -20,7 +20,7 @@
         .image-card-body {
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal; 
+            white-space: normal;
             word-break: break-word;
         }
     </style>
@@ -71,6 +71,12 @@
             item.innerText = `${t.transformation}: ${JSON.stringify(t.parameters)}`;
             list.appendChild(item);
         });
+        const btn = document.createElement('a');
+        btn.href = `/upload-with-preset?transformations=${encodeURIComponent(JSON.stringify(data.transformations))}`;
+        btn.innerText = '🔁 Повторить';
+        btn.className = 'btn btn-sm btn-outline-primary mt-2';
+
+        card.appendChild(btn);
         card.appendChild(list);
         card.appendChild(img);
         card.appendChild(p);

@@ -44,4 +44,12 @@ class ImagesProcessingController extends Controller
 
         return redirect()->route('transformations.live');
     }
+    public function showUploadWithPreset(Request $request)
+    {
+        $preset = $request->query('transformations');
+
+        return view('upload-images-preset', [
+            'presetTransformations' => $preset
+        ]);
+    }
 }

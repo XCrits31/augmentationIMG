@@ -259,4 +259,32 @@
 
         <button type="submit">Submit</button>
     </form>
+    <input type="hidden" id="transformations-data" name="transformations_data" value="{{ $presetTransformations ?? '' }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const preset = @json($presetTransformations ?? '[]');
+
+            try {
+                const data = JSON.parse(preset);
+
+                data.forEach(item => {
+                    const checkbox = document.querySelector(`.transformation[value="${item.transformation}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                        checkbox.dispatchEvent(new Event('click'));
+                    }
+
+                    const paramBlock = document.getElementById(item.transformation + '-parameters');
+                    if (paramBlock) {
+                        for (const key in item.parameters) {
+                            const input = paramBlock.querySelector(`[name="${item.transformation}[${key}]"]`);
+                            if (input) input.value = item.parameters[key];
+                        }
+                    }
+                });
+            } catch (e) {
+                console.warn("Could not apply preset transformations:", e);
+            }
+        });
+    </script>
 @endsection

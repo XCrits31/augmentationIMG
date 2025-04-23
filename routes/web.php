@@ -19,3 +19,4 @@ Route::get('/transformations/live', function () {
 })->name('transformations.live');
 Route::get('/upload-images', [ImagesProcessingController::class, 'showUploadForm'])->name('images.upload.form');
 Route::post('/process-multiple-images', [ImagesProcessingController::class, 'processMultipleImages'])->name('images.process.multiple');
+Route::get('/upload-with-preset', [ImagesProcessingController::class, 'showUploadWithPreset'])->name('images.upload.withPreset');
