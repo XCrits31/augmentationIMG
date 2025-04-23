@@ -138,6 +138,12 @@ def main():
         print(json.dumps({"error": f"error transforms: {str(e)}"}))
         return
 
+    tensor_output_path = os.path.join(output_dir, f"{name}_processed_{unique_id}.pt")
+    try:
+        torch.save(image, tensor_output_path)
+    except Exception as e:
+        print(json.dumps({"error": f"Failed to save tensor: {str(e)}"}))
+        return
 
     if isinstance(image, MetaTensor):
         image = torch.as_tensor(image)
@@ -180,7 +186,7 @@ def main():
 
     result = {
         "message": "Image processed successfully!",
-        "processed": output_path
+        "processed": output_path,
     }
 
     print(json.dumps(result))

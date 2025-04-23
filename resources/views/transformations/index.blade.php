@@ -56,8 +56,12 @@
                         </td>
                         <td>{{ $transformation->created_at }}</td>
                         <td> <a href="{{ asset('storage/processed/' . $transformation->output_image) }}" download>
-                                <button type="submit" class="btn btn-danger">Download</button>
+                                <button type="submit" class="btn btn-danger">png</button>
                             </a>
+                            @php
+                                $tensorFile = preg_replace('/\.png$/', '.pt', $transformation->output_image);
+                            @endphp
+                            <a href="{{ asset('storage/processed/' . $tensorFile) }}"> <button type="submit" class="btn btn-danger"> Tensor (.pt) </button> </a>
                         </td>
                         <td>
                             <form action="{{ route('transformations.delete', $transformation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this transformation?');">
