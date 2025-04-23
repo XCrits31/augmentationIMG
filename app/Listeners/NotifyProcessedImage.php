@@ -12,13 +12,9 @@ class NotifyProcessedImage implements ShouldQueue
      */
     public function handle(ProcessImageCompleted $event)
     {
-        // Данные, переданные из события
-        $data = $event->data;
 
-        // Логика обработки события, например, отправка уведомления
-        \Log::info('Got message: ' . $event->message);
+        \Log::info('processed succesfully/Notify');
 
-        // Или отправка сообщения, например, пользователю
     }
 }
 

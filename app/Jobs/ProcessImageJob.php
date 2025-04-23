@@ -53,7 +53,6 @@ class ProcessImageJob implements ShouldQueue
         $process->run();
 
         if (!$process->isSuccessful()) {
-            // Логирование ошибки
             throw new \Exception($process->getErrorOutput());
         }
 
@@ -64,7 +63,6 @@ class ProcessImageJob implements ShouldQueue
 
         $processedPath = $output['processed'];
 
-        // Пример сохранения результата в базу
         Transformation::create([
             'image_name' => basename($this->inputPath),
             'transformations' => json_encode($this->transformations),
@@ -72,7 +70,7 @@ class ProcessImageJob implements ShouldQueue
         ]);
         $processedPath = asset('storage/processed/' . basename($processedPath));
         $message = basename($processedPath);
-        event(new ProcessImageCompleted($processedPath, $message));;
+        event(new ProcessImageCompleted($processedPath, $message, $this->transformations));;
 
     }
 }

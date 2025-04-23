@@ -19,11 +19,13 @@ class ProcessImageCompleted implements ShouldBroadcast
      */
     public $image_path;
     public $message;
+    public $transformations;
 
-    public function __construct(string $image_path, string $message)
+    public function __construct(string $image_path, string $message, array $transformations)
     {
         $this->image_path = $image_path;
         $this->message = $message;
+        $this->transformations = $transformations;
     }
 
     /**
@@ -44,6 +46,7 @@ class ProcessImageCompleted implements ShouldBroadcast
         return [
             'image_path' => $this->image_path,
             'message' => $this->message,
+            'transformations' => $this->transformations,
         ];
     }
 }

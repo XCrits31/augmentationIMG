@@ -56,6 +56,13 @@
         const p = document.createElement('p');
         p.innerText = data.message || 'Без сообщения';
 
+        const list = document.createElement('ul');
+        data.transformations.forEach(t => {
+            const item = document.createElement('li');
+            item.innerText = `${t.transformation}: ${JSON.stringify(t.parameters)}`;
+            list.appendChild(item);
+        });
+        card.appendChild(list);
         card.appendChild(img);
         card.appendChild(p);
         document.getElementById('image-feed').prepend(card);
