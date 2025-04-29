@@ -21,3 +21,4 @@ Route::get('/upload-images', [ImagesProcessingController::class, 'showUploadForm
 Route::post('/process-multiple-images', [ImagesProcessingController::class, 'processMultipleImages'])->name('images.process.multiple');
 Route::get('/upload-with-preset', [ImagesProcessingController::class, 'showUploadWithPreset'])->name('images.upload.withPreset');
 Route::get('/transformations/{id}', [ImageProcessingController::class, 'show'])->name('transformations.show');
+Route::post('/transformations/download-selected', [ImageProcessingController::class, 'downloadSelected'])->name('transformations.downloadSelected');

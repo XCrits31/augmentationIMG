@@ -14,10 +14,12 @@
                     <button type="submit" class="btn btn-danger">Delete All</button>
                 </form>
             </div>
-
+            <form id="download-form" method="POST" action="{{ route('transformations.downloadSelected') }}">
+                @csrf
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th><input type="checkbox" id="select-all"></th>
                     <th>id</th>
                     <th>image name</th>
                     <th>original image</th>
@@ -32,6 +34,7 @@
                 <tbody>
                 @foreach($transformations as $transformation)
                     <tr>
+                        <td><input type="checkbox" name="selected[]" value="{{ $transformation->output_image }}"></td>
                         <td>{{ $transformation->id }}</td>
                         <td><a href="{{ route('transformations.show', $transformation->id) }}" class="btn btn-info btn-sm">{{ $transformation->output_image }}</a></td>
                         <td>
@@ -80,7 +83,14 @@
                 @endforeach
                 </tbody>
             </table>
+                <button type="submit" class="btn btn-success mt-3">Download Selected PNGs</button>
+            </form>
         @endif
     </div>
-
+    <script>
+        document.getElementById('select-all').addEventListener('click', function() {
+            const checked = this.checked;
+            document.querySelectorAll('input[name="selected[]"]').forEach(cb => cb.checked = checked);
+        });
+    </script>
 @endsection

@@ -12,6 +12,7 @@ use PHPUnit\Event\Code\Throwable;
 use Illuminate\Bus\Batchable;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use ZipArchive;
 
 class ImageProcessingController extends Controller
 {
@@ -117,5 +118,26 @@ class ImageProcessingController extends Controller
         ]);
     }
 
+    public function downloadSelected(Request $request)
+    {
+        $files = $request->input('selected', []);
+        if (empty($files)) {
+            return back()->with('error', 'No files selected.');
+        }
+
+        $zipFile = storage_path('app/public/processed_selected.zip');
+        $zip = new ZipArchive;
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            foreach ($files as $file) {
+                $fullPath = storage_path('app/public/processed/' . $file);
+                if (file_exists($fullPath)) {
+                    $zip->addFile($fullPath, basename($fullPath));
+                }
+            }
+            $zip->close();
+        }
+
+        return response()->download($zipFile)->deleteFileAfterSend(true);
+    }
 
 }
