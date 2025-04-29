@@ -6,7 +6,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">{{ $detail->image_name }}</h5>
+                <h5 class="card-title">{{ $detail->output_image }}</h5>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -17,6 +17,19 @@
                         <strong>Processed Image:</strong><br>
                         <img src="{{ asset('storage/processed/' . $detail->output_image) }}" alt="Processed" style="width: 100%;">
                     </div>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Created at:</strong> {{ $detail->created_at }}
+                </div>
+
+                <div class="mb-3">
+                    <strong>Download:</strong><br>
+                    <a href="{{ asset('storage/processed/' . $detail->output_image) }}" class="btn btn-sm btn-outline-success" download>Download PNG</a>
+                    @php
+                        $tensorFile = preg_replace('/\.png$/', '.pt', $detail->output_image);
+                    @endphp
+                    <a href="{{ asset('storage/processed/' . $tensorFile) }}" class="btn btn-sm btn-outline-info">Download .pt</a>
                 </div>
 
                 <div class="mb-3">
@@ -38,13 +51,20 @@
                         <p>No transformations recorded.</p>
                     @endif
                 </div>
+
+                <div class="mb-3">
+                    <form method="GET" action="{{ route('images.upload.withPreset') }}">
+                        <input type="hidden" name="transformations" value="{{ $detail->transformations }}">
+                        <button type="submit" class="btn btn-primary">Use Again</button>
+                    </form>
+                </div>
+
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th>id</th>
                         <th>image name</th>
                         <th>original image</th>
-                        <th>transformations</th>
                         <th>image</th>
                         <th>Created at</th>
                         <th>Download</th>
@@ -60,20 +80,6 @@
                             <td>
                                 <img src="{{ asset('storage/uploads/' . $transformation->image_name) }}" alt="original Image" style="width: 100px;">
                             </td>
-                            <td>@if(!empty($transformation->transformations))
-                                    <ul>
-                                        @foreach(json_decode($transformation->transformations, true) as $index => $transformationItem)
-                                            <li>
-                                                <strong>Transformation {{ $index + 1 }}:</strong> {{ ucfirst($transformationItem['transformation']) }}
-                                                <ul>
-                                                    @foreach($transformationItem['parameters'] as $key => $value)
-                                                        <li>{{ ucfirst($key) }}: {{ is_bool($value) ? ($value ? 'true' : 'false') : $value }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif</td>
                             <td>
                                 <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Output Image" style="width: 100px;">
                             </td>
