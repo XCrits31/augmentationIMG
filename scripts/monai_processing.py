@@ -56,7 +56,7 @@ def build_composite_transformations(transformations):
                 range_x = float(params["range"])
                 prob = float(params["prob"])
                 keep_size = params["keep_size"] in [True, "true", "True", 1]  # Приведение к bool
-                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=1, mode="nearest"))
+                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=1, mode="nearest-exact"))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
@@ -66,7 +66,7 @@ def build_composite_transformations(transformations):
                 zoom_min = float(params['zoom_min'])
                 zoom_max = float(params['zoom_max'])
                 prob = float(params["prob"])
-                transform_list.append(RandZoom(min_zoom=zoom_min, max_zoom=zoom_max, prob=prob, mode="nearest"))
+                transform_list.append(RandZoom(min_zoom=zoom_min, max_zoom=zoom_max, prob=prob, mode="nearest-exact"))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
