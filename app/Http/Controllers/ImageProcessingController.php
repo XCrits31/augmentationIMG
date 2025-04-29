@@ -120,6 +120,7 @@ class ImageProcessingController extends Controller
 
     public function downloadSelected(Request $request)
     {
+        dd($request->all());
         $files = $request->input('selected', []);
         if (empty($files)) {
             return back()->with('error', 'No files selected.');
