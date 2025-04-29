@@ -78,13 +78,6 @@
                 <button type="submit" class="btn btn-success mt-3">Download Selected PNGs</button>
             </form>
         @endif
-        @foreach($transformations as $transformation)
-            <form action="{{ route('transformations.delete', $transformation->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Delete</button>
-            </form>
-        @endforeach
     </div>
     <script>
         document.getElementById('select-all').addEventListener('click', function() {
