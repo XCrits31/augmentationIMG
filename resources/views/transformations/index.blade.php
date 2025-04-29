@@ -87,10 +87,5 @@
             </form>
         @endif
     </div>
-    <script>
-        document.getElementById('select-all').addEventListener('click', function() {
-            const checked = this.checked;
-            document.querySelectorAll('input[name="selected[]"]').forEach(cb => cb.checked = checked);
-        });
-    </script>
+
 @endsection
