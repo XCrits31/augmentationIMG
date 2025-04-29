@@ -132,7 +132,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-success mt-3">Download Selected PNGs</button>
+                    <button type="submit" class="btn btn-success mt-3">Download Selected</button>
                 </form>
 
                 <a href="{{ route('transformations.index') }}" class="btn btn-primary">Back to List</a>
