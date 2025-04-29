@@ -8,16 +8,17 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $transformation->image_name }}</h5>
 
-                <div class="mb-3">
-                    <strong>Original Image:</strong><br>
-                    <img src="{{ asset('storage/uploads/' . $transformation->image_name) }}" alt="Original" style="max-width: 100%;">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Original Image:</strong><br>
+                        <img src="{{ asset('storage/uploads/' . $transformation->image_name) }}" alt="Original" style="width: 100%;">
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Processed Image:</strong><br>
+                        <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Processed" style="width: 100%;">
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <strong>Processed Image:</strong><br>
-                    <img src="{{ asset('storage/processed/' . $transformation->output_image) }}" alt="Processed" style="max-width: 100%;">
-                </div>
-
+                
                 <div class="mb-3">
                     <strong>Transformations:</strong>
                     @if(!empty($transformation->transformations))
