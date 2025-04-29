@@ -33,7 +33,7 @@
                 @foreach($transformations as $transformation)
                     <tr>
                         <td>{{ $transformation->id }}</td>
-                        <td>{{ $transformation->image_name }}</td>
+                        <td><a href="{{ route('transformations.show', $transformation->id) }}" class="btn btn-info btn-sm">{{ $transformation->image_name }}</a></td>
                         <td>
                             <img src="{{ asset('storage/uploads/' . $transformation->image_name) }}" alt="original Image" style="width: 100px;">
                         </td>

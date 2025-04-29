@@ -101,5 +101,12 @@ class ImageProcessingController extends Controller
 
         return redirect()->route('transformations.index')->with('success', 'All transformations deleted successfully.');
     }
+    public function show($id)
+    {
+        $transformation = Transformation::findOrFail($id);
+
+        return view('transformations.show', compact('transformation'));
+    }
+
 
 }
