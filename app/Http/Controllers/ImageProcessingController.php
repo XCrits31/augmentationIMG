@@ -8,6 +8,7 @@ use App\Models\Transformation;
 use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Str;
 use PHPUnit\Event\Code\Throwable;
 use Illuminate\Bus\Batchable;
 use Symfony\Component\Process\Process;
@@ -121,23 +122,29 @@ class ImageProcessingController extends Controller
     public function downloadSelected(Request $request)
     {
         $files = $request->input('selected', []);
+
         if (empty($files)) {
             return back()->with('error', 'No files selected.');
         }
 
-        $zipFile = storage_path('app/public/processed_selected.zip');
-        $zip = new ZipArchive;
-        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+        $zip = new \ZipArchive();
+
+        $fileName = 'processed_selected_' . Str::random(8) . '.zip';
+        $zipPath = storage_path("app/public/{$fileName}");
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
             foreach ($files as $file) {
                 $fullPath = storage_path('app/public/processed/' . $file);
                 if (file_exists($fullPath)) {
-                    $zip->addFile($fullPath, basename($fullPath));
+                    $zip->addFile($fullPath, basename($file));
                 }
             }
             $zip->close();
+        } else {
+            return back()->with('error', 'Could not create ZIP file.');
         }
 
-        return response()->download($zipFile)->deleteFileAfterSend(true);
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
 }
