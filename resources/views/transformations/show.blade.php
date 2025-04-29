@@ -58,6 +58,7 @@
                         <button type="submit" class="btn btn-primary">Use Again</button>
                     </form>
                 </div>
+                <h3>Same transformations</h3>
 
                 <table class="table table-bordered">
                     <thead>
