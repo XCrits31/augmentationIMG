@@ -8,7 +8,6 @@ use App\Models\Transformation;
 use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Str;
 use PHPUnit\Event\Code\Throwable;
 use Illuminate\Bus\Batchable;
 use Symfony\Component\Process\Process;
@@ -127,24 +126,24 @@ class ImageProcessingController extends Controller
             return back()->with('error', 'No files selected.');
         }
 
-        $zip = new \ZipArchive();
+        $zipFileName = 'processed_selected.zip';
+        $zipFilePath = storage_path("app/public/{$zipFileName}");
 
-        $fileName = 'processed_selected_' . Str::random(8) . '.zip';
-        $zipPath = storage_path("app/public/{$fileName}");
-
-        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
-            foreach ($files as $file) {
-                $fullPath = storage_path('app/public/processed/' . $file);
-                if (file_exists($fullPath)) {
-                    $zip->addFile($fullPath, basename($file));
-                }
-            }
-            $zip->close();
-        } else {
-            return back()->with('error', 'Could not create ZIP file.');
+        $zip = new ZipArchive;
+        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            return back()->with('error', 'Unable to create ZIP file.');
         }
 
-        return response()->download($zipPath)->deleteFileAfterSend(true);
+        foreach ($files as $fileName) {
+            $fullPath = storage_path('app/public/processed/' . $fileName);
+            if (file_exists($fullPath)) {
+                $zip->addFile($fullPath, $fileName);
+            }
+        }
+
+        $zip->close();
+
+        return response()->download($zipFilePath)->deleteFileAfterSend(true);
     }
 
 }
