@@ -104,8 +104,17 @@ class ImageProcessingController extends Controller
     public function show($id)
     {
         $transformation = Transformation::findOrFail($id);
+        $all = Transformation::all();
 
-        return view('transformations.show', compact('transformation'));
+        $sameTransformations = $all->filter(function ($item) use ($transformation) {
+            return $item->id !== $transformation->id &&
+                $item->transformations === $transformation->transformations;
+        });
+
+        return view('transformations.show', [
+            'detail' => $transformation,
+            'transformations' => $sameTransformations,
+        ]);
     }
 
 
