@@ -120,18 +120,16 @@ class ImageProcessingController extends Controller
 
     public function downloadSelected(Request $request)
     {
-        file_put_contents(storage_path('logs/debug.txt'), now() . " | called\n", FILE_APPEND);
-        dd($request->all());
         $files = $request->input('selected', []);
         if (empty($files)) {
             return back()->with('error', 'No files selected.');
         }
 
-        $zipFile = storage_path('app/public/processed_selected.zip');
+        $relativeZipPath = 'zips/processed_selected_' . now()->timestamp . '.zip';
+        $absoluteZipPath = storage_path('app/' . $relativeZipPath);
 
         $zip = new ZipArchive;
-        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            Log::error("Не удалось открыть архив для записи: $zipFile");
+        if ($zip->open($absoluteZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
             return back()->with('error', 'Failed to create ZIP archive.');
         }
 
@@ -141,24 +139,17 @@ class ImageProcessingController extends Controller
             if (file_exists($fullPath)) {
                 $zip->addFile($fullPath, basename($fullPath));
                 $added++;
-            } else {
-                Log::warning("Файл не найден: $fullPath");
             }
         }
 
         $zip->close();
 
         if ($added === 0) {
-            Log::error("Ни один файл не добавлен в архив.");
             return back()->with('error', 'No valid files found to add to archive.');
         }
 
-        if (!file_exists($zipFile)) {
-            Log::error("ZIP-файл не был создан: $zipFile");
-            return back()->with('error', 'ZIP file was not created.');
-        }
-
-        return response()->download($zipFile)->deleteFileAfterSend(true);
+        // Отдаём через Storage
+        return Storage::download($relativeZipPath, 'processed_selected.zip')->deleteFileAfterSend(true);
     }
 
 }
