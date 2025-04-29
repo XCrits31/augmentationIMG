@@ -121,29 +121,42 @@ class ImageProcessingController extends Controller
     public function downloadSelected(Request $request)
     {
         $files = $request->input('selected', []);
-
         if (empty($files)) {
             return back()->with('error', 'No files selected.');
         }
 
-        $zipFileName = 'processed_selected.zip';
-        $zipFilePath = storage_path("app/public/{$zipFileName}");
+        $zipFile = storage_path('app/public/processed_selected.zip');
 
         $zip = new ZipArchive;
-        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            return back()->with('error', 'Unable to create ZIP file.');
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            Log::error("Не удалось открыть архив для записи: $zipFile");
+            return back()->with('error', 'Failed to create ZIP archive.');
         }
 
-        foreach ($files as $fileName) {
-            $fullPath = storage_path('app/public/processed/' . $fileName);
+        $added = 0;
+        foreach ($files as $file) {
+            $fullPath = storage_path('app/public/processed/' . $file);
             if (file_exists($fullPath)) {
-                $zip->addFile($fullPath, $fileName);
+                $zip->addFile($fullPath, basename($fullPath));
+                $added++;
+            } else {
+                Log::warning("Файл не найден: $fullPath");
             }
         }
 
         $zip->close();
 
-        return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        if ($added === 0) {
+            Log::error("Ни один файл не добавлен в архив.");
+            return back()->with('error', 'No valid files found to add to archive.');
+        }
+
+        if (!file_exists($zipFile)) {
+            Log::error("ZIP-файл не был создан: $zipFile");
+            return back()->with('error', 'ZIP file was not created.');
+        }
+
+        return response()->download($zipFile)->deleteFileAfterSend(true);
     }
 
 }
