@@ -126,31 +126,19 @@ class ImageProcessingController extends Controller
             return back()->with('error', 'No files selected.');
         }
 
-        $relativeZipPath = 'zips/processed_selected_' . now()->timestamp . '.zip';
-        $absoluteZipPath = storage_path('app/' . $relativeZipPath);
-
+        $zipFile = storage_path('app/public/processed_selected.zip');
         $zip = new ZipArchive;
-        if ($zip->open($absoluteZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            return back()->with('error', 'Failed to create ZIP archive.');
-        }
-
-        $added = 0;
-        foreach ($files as $file) {
-            $fullPath = storage_path('app/public/processed/' . $file);
-            if (file_exists($fullPath)) {
-                $zip->addFile($fullPath, basename($fullPath));
-                $added++;
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            foreach ($files as $file) {
+                $fullPath = storage_path('app/public/processed/' . $file);
+                if (file_exists($fullPath)) {
+                    $zip->addFile($fullPath, basename($fullPath));
+                }
             }
+            $zip->close();
         }
 
-        $zip->close();
-
-        if ($added === 0) {
-            return back()->with('error', 'No valid files found to add to archive.');
-        }
-
-        // Отдаём через Storage
-        return Storage::download($relativeZipPath, 'processed_selected.zip')->deleteFileAfterSend(true);
+        return response()->download($zipFile)->deleteFileAfterSend(true);
     }
 
 }
