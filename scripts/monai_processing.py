@@ -66,7 +66,7 @@ def build_composite_transformations(transformations):
                 zoom_min = float(params['zoom_min'])
                 zoom_max = float(params['zoom_max'])
                 prob = float(params["prob"])
-                transform_list.append(RandZoom(min_zoom=zoom_min, max_zoom=zoom_max, prob=prob, mode="trilinear"))
+                transform_list.append(RandZoom(min_zoom=zoom_min, max_zoom=zoom_max, prob=prob, padding_mode="empty", mode="nearest-exact"))
             else:
                 raise ValueError(f"Missing 'zoom' parameter for transformation '{name}'")
 
