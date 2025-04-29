@@ -27,7 +27,6 @@
                     <th>image</th>
                     <th>Created at</th>
                     <th>Download</th>
-                    <th>Delete</th>
                     <th>Use Again</th>
                 </tr>
                 </thead>
@@ -67,13 +66,6 @@
                             <a href="{{ asset('storage/processed/' . $tensorFile) }}"> <button type="submit" class="btn btn-danger"> Tensor (.pt) </button> </a>
                         </td>
                         <td>
-                            <form action="{{ route('transformations.delete', $transformation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this transformation?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                        <td>
                             <form method="GET" action="{{ route('images.upload.withPreset') }}">
                                 <input type="hidden" name="transformations" value="{{ $transformation->transformations }}">
                                 <button type="submit" class="btn btn-outline-primary btn-sm">use</button>
@@ -86,6 +78,18 @@
                 <button type="submit" class="btn btn-success mt-3">Download Selected PNGs</button>
             </form>
         @endif
+        @foreach($transformations as $transformation)
+            <form action="{{ route('transformations.delete', $transformation->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
+        @endforeach
     </div>
-
+    <script>
+        document.getElementById('select-all').addEventListener('click', function() {
+            const checked = this.checked;
+            document.querySelectorAll('input[name="selected[]"]').forEach(cb => cb.checked = checked);
+        });
+    </script>
 @endsection
