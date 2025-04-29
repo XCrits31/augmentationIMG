@@ -12,6 +12,7 @@ use PHPUnit\Event\Code\Throwable;
 use Illuminate\Bus\Batchable;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class ImageProcessingController extends Controller
