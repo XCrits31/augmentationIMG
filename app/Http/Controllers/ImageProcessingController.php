@@ -122,20 +122,38 @@ class ImageProcessingController extends Controller
     public function downloadSelected(Request $request)
     {
         $files = $request->input('selected', []);
+        $type = $request->input('file_type', 'png'); // default to png
+
         if (empty($files)) {
             return back()->with('error', 'No files selected.');
         }
 
-        $zipFile = storage_path('app/public/processed_selected.zip');
+        if (!in_array($type, ['png', 'pt'])) {
+            return back()->with('error', 'Invalid file type selected.');
+        }
+
+        $zipFile = storage_path("app/public/processed_selected.{$type}.zip");
         $zip = new ZipArchive;
-        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
-            foreach ($files as $file) {
-                $fullPath = storage_path('app/public/processed/' . $file);
-                if (file_exists($fullPath)) {
-                    $zip->addFile($fullPath, basename($fullPath));
-                }
+
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            return back()->with('error', 'Failed to create ZIP archive.');
+        }
+
+        $added = 0;
+        foreach ($files as $file) {
+            $file = preg_replace('/\.png$/', ".$type", $file);  // convert to .pt if needed
+            $fullPath = storage_path("app/public/processed/" . $file);
+
+            if (file_exists($fullPath)) {
+                $zip->addFile($fullPath, basename($fullPath));
+                $added++;
             }
-            $zip->close();
+        }
+
+        $zip->close();
+
+        if ($added === 0) {
+            return back()->with('error', 'No valid files found to add to archive.');
         }
 
         return response()->download($zipFile)->deleteFileAfterSend(true);

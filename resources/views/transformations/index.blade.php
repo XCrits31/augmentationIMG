@@ -16,6 +16,13 @@
             </div>
             <form id="download-form" method="POST" action="{{ route('transformations.downloadSelected') }}">
                 @csrf
+                <div class="mb-2">
+                    <label for="file_type">Choose file type:</label>
+                    <select name="file_type" id="file_type" class="form-select w-auto d-inline-block">
+                        <option value="png">PNG</option>
+                        <option value="pt">Tensor (.pt)</option>
+                    </select>
+                </div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
