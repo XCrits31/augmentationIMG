@@ -120,6 +120,7 @@ class ImageProcessingController extends Controller
 
     public function downloadSelected(Request $request)
     {
+        file_put_contents(storage_path('logs/debug.txt'), now() . " | called\n", FILE_APPEND);
         dd($request->all());
         $files = $request->input('selected', []);
         if (empty($files)) {
