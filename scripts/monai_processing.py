@@ -56,7 +56,7 @@ def build_composite_transformations(transformations):
                 range_x = float(params["range"])
                 prob = float(params["prob"])
                 keep_size = params["keep_size"] in [True, "true", "True", 1]  # Приведение к bool
-                transform_list.append(RandRotate(range_x=range_x, prob=prob, keep_size=1, mode="bicubic"))
+                transform_list.append(RandRotate(range_x=range_x, prob=prob, padding_mode="empty", mode="nearest-exact"))
             else:
                 raise ValueError(f"Missing one of {required_keys} for transformation '{name}'")
 
